@@ -4,6 +4,8 @@ import CardNote from '../CardNote';
 import {getLists} from '../../fakeData/fakeLists'
 import {getNotes} from '../../fakeData/fakeNotes'
 
+import './Cards.scss'
+
 class Cards extends Component {
     state = {
         cardLists: [],
@@ -51,7 +53,7 @@ class Cards extends Component {
 
     render() {
         return (
-            <div>
+            <div className='body row p-2'>
                 {this.state.cardLists.map(cardList => (
                     <CardList
                         key={cardList.title}
