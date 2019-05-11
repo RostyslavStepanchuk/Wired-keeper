@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {WiredButton} from 'wired-elements';
 
 Button.propTypes = {
     title: PropTypes.string.isRequired
@@ -7,9 +8,9 @@ Button.propTypes = {
 
 function Button(props) {
     return (
-        <button>
+        <wired-button>
             {props.title}
-        </button>
+        </wired-button>
     );
 }
 
