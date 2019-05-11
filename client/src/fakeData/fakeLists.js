@@ -1,35 +1,41 @@
 const lists = [
     {
+        _id: 1,
         title: 'React',
+        type: 'list',
         listItems: [{
-            completed: true,
+            checked: true,
             task: 'be react ninja asap'
         },
             {
-                completed: true,
+                checked: true,
                 task: 'finish the course'
             },
             {
-                completed: false,
+                checked: false,
                 task: 'find a job'
             }
         ]
     },
     {
+        _id: 2,
         title: 'Javascript',
+        type: 'list',
         listItems: [{
-            completed: false,
+            checked: false,
             task: 'finish the book'
         },{
-            completed: true,
+            checked: true,
             task: 'write a variable'
         }
         ]
     },
     {
+        _id: 3,
         title: 'Styles',
+        type: 'list',
         listItems: [{
-            completed: false,
+            checked: false,
             task: 'learn better SASS, SCSS and other shit'
         }]
     }
