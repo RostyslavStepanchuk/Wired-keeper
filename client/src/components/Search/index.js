@@ -8,7 +8,7 @@ Search.propTypes = {
 
 function Search(props) {
     return (
-        <wired-input type='text'/>
+        <wired-input type='text' style={{width:'100%'}}/>
     );
 }
 

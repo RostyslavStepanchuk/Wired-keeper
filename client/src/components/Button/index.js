@@ -4,12 +4,11 @@ import {WiredButton} from 'wired-elements';
 
 Button.propTypes = {
     title: PropTypes.string.isRequired,
-    onClick: PropTypes.func
 };
 
 function Button(props) {
     return (
-        <wired-button onClick ={props.onClick}>
+        <wired-button {...props}>
             {props.title}
         </wired-button>
     );

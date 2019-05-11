@@ -7,23 +7,23 @@ import logo from "./hand-drawn-pencil-icon.png";
 
 import './header.scss'
 
-Header.propTypes = {
-
-};
+Header.propTypes = {};
 
 function Header(props) {
     return (
-        <div className='container-fluid'>
-            <div className="row">
-                <div>
-                <img className='logo-img' alt='pencil-logo' src={logo}/>
-                WIRED-KEEPER
-                </div>
-            <Button title='Create Note'/>
-            <Button title='Create List'/>
+        <header className='row'>
+            <div className='header__logo col-2 col-md-4'>
+                <img className='header__logo-img' alt='pencil-logo' src={logo}/>
+                <span className='header__logo-txt d-none d-md-inline-block'>WIRED-KEEPER</span>
+            </div>
+            <div className="header__buttons col-10 col-md-5">
+                <Button title='Create Note'/>
+                <Button title='Create List'/>
+            </div>
+            <div className="header__search col-12 col-md-3">
             <Search/>
-        </div>
-        </div>
+            </div>
+        </header>
     );
 }
 
