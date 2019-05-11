@@ -2,13 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {WiredInput} from 'wired-elements'
 
-Search.propTypes = {
+import loop from './search.png'
 
-};
+import './Search.scss'
+
+Search.propTypes = {};
 
 function Search(props) {
     return (
-        <wired-input type='text' style={{width:'100%'}}/>
+        <div className='row position-relative'>
+            <wired-input class='input-field' type='text'/>
+            <img className='loop' src={loop} alt="loop"/>
+        </div>
     );
 }
 

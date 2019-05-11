@@ -7,7 +7,8 @@ class CardNote extends Component {
         const {cardNote, onCorrect, onDelete} = this.props;
 
         return (
-            <wired-card type={cardNote.type}>
+            <div className="body__card col-sm-6 col-lg-4">
+            <wired-card type={cardNote.type} style={{width:'100%'}}>
                 <h1>{cardNote.title}</h1>
                 <p>
                     {cardNote.noteText}
@@ -21,6 +22,7 @@ class CardNote extends Component {
                     onClick={() => onDelete(cardNote)}
                 />
             </wired-card>
+            </div>
         );
     }
 }
