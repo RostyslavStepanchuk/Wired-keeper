@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {WiredInput} from 'wired-elements'
 
 Search.propTypes = {
 
@@ -7,7 +8,7 @@ Search.propTypes = {
 
 function Search(props) {
     return (
-        <input type='text'/>
+        <wired-input type='text' style={{width:'100%'}}/>
     );
 }
 
