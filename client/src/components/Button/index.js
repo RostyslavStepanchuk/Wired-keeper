@@ -2,12 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 Button.propTypes = {
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+
 };
 
 function Button(props) {
     return (
-        <button>
+        <button
+            onClick={props.onClick}
+        >
             {props.title}
         </button>
     );

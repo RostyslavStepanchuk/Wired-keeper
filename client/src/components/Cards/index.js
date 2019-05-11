@@ -18,6 +18,36 @@ class Cards extends Component {
         this.setState({cardNotes});
     }
 
+    handleDelete = (notation) => {
+        if (notation.type === 'list') {
+            const cardLists = this.state.cardLists.filter(list => list._id !== notation._id);
+            this.setState({cardLists})
+        } else {
+            const cardNotes = this.state.cardNotes.filter(note => note._id !== notation._id);
+            this.setState({cardNotes})
+        }
+    };
+
+    handleCorrect = () => {
+        console.log('corrected')
+    };
+
+    handleCheck = (cardList, ItemIndex) => {
+        const originalCardList=[...this.state.cardLists]
+
+        const cardLists = [...this.state.cardLists];
+        const index = cardLists.indexOf(cardList);
+        cardLists[index] = {...cardLists[index]};
+        cardLists[index].listItems[ItemIndex].checked = !cardLists[index].listItems[ItemIndex].checked;
+        // try{
+        //     http.post(url/cardlist/:id, kolbasa)
+        // } catch(ex){
+        //     alert('trevoga')
+        //     this.setState({cardLists: originalCardList})
+        // }
+
+        this.setState({cardLists});
+    };
 
     render() {
         return (
@@ -25,14 +55,17 @@ class Cards extends Component {
                 {this.state.cardLists.map(cardList => (
                     <CardList
                         key={cardList.title}
-                        title={cardList.title}
-                        listItems={cardList.listItems}
+                        cardList={cardList}
+                        onCheck={this.handleCheck}
+                        onCorrect={this.handleCorrect}
+                        onDelete={this.handleDelete}
                     />))}
                 {this.state.cardNotes.map(cardNote => (
                     <CardNote
                         key={cardNote.title}
-                        title={cardNote.title}
-                        noteText={cardNote.noteText}
+                        cardNote={cardNote}
+                        onCorrect={this.handleCorrect}
+                        onDelete={this.handleDelete}
                     />
                 ))}
             </div>
