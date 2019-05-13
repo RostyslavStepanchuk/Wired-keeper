@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import CardList from '../CardList';
 import CardNote from '../CardNote';
 import CustomCard from '../customCard'
+import { deleteNote, saveNote} from '../../services/noteService'; // add getLists and getNotes from services
+import { deleteList, saveList, updateList} from "../../services/listService";
 import {getLists} from '../../fakeData/fakeLists'
 import {getNotes} from '../../fakeData/fakeNotes'
 
@@ -17,39 +19,63 @@ class Cards extends Component {
         const cardLists = await getLists();
         const cardNotes = await getNotes();
 
+
         this.setState({cardLists});
         this.setState({cardNotes});
     }
 
-    handleDelete = (notation) => {
+    handleDelete = async notation => {
         if (notation.type === 'list') {
+            const originalLists = this.state.cardLists;
             const cardLists = this.state.cardLists.filter(list => list._id !== notation._id);
-            this.setState({cardLists})
+            this.setState({cardLists});
+
+            try {
+                await deleteList(notation.id);
+            } catch (ex) {
+                if (ex.response && ex.response.status === 404) console.log("x");
+                alert("This movie has already been deleted.");
+                this.setState({cardNotes: originalLists});
+            }
+
         } else {
+            const originalNotes = this.state.cardNotes;
             const cardNotes = this.state.cardNotes.filter(note => note._id !== notation._id);
-            this.setState({cardNotes})
+            this.setState({cardNotes});
+
+            try {
+                await deleteNote(notation.id);
+            } catch (ex) {
+                if (ex.response && ex.response.status === 404) console.log("x");
+                alert("This movie has already been deleted.");
+                this.setState({cardLists: originalNotes});
+            }
         }
     };
 
 
     handleCheck = (cardList, ItemIndex) => {
-        const originalCardList=[...this.state.cardLists]
+        const originalLists = [...this.state.cardLists];
         const cardLists = [...this.state.cardLists];
         const index = cardLists.indexOf(cardList);
         cardLists[index] = {...cardLists[index]};
         cardLists[index].listItems[ItemIndex].checked = !cardLists[index].listItems[ItemIndex].checked;
-        // try{
-        //     http.post(url/cardlist/:id, kolbasa)
-        // } catch(ex){
-        //     alert('trevoga')
-        //     this.setState({cardLists: originalCardList})
-        // }
+        try {
+            updateList(cardList.id)
+        } catch (ex) {
+            alert('trevoga')
+            this.setState({cardLists: originalLists})
+        }
 
         this.setState({cardLists});
     };
-    handleSave = (card) => {
-        // http.post( url, card);
-        console.log('corrected', card)
+    handleSave = async(notation) => {
+        console.log('corrected', notation);
+        if (notation.type === 'list') {
+           await saveList(notation)
+        } else {
+            await saveNote(notation)
+        }
     };
     handleChange = (notation) => {
         // if (notation.type === 'list') {

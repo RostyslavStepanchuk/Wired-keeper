@@ -1,14 +1,24 @@
-
 import React, {Component} from 'react';
 import Button from '../Button'
 // import {WiredCard, WiredCheckbox} from 'wired-elements';
 import ContentEditable from "react-contenteditable";
+import {saveList} from '../../services/listService'
 
 
 class FormList extends Component {
 
+    // state = {
+    //     card: {
+    //         title: '',
+    //         listItems: [{
+    //             checked: false,
+    //             task: ''
+    //         }],
+    //     }
+    //
+    // };
     state = {
-        titleValue: '',
+        title: '',
         listItems: [{
             checked: false,
             task: ''
@@ -17,36 +27,40 @@ class FormList extends Component {
 
     handleChange = (evt, stateKey, index) => {
 
-        console.log(this.state);
-        if (stateKey === 'titleValue') {
+        if (stateKey === 'title') {
             const state = {...this.state};
             state[stateKey] = evt.target.value;
-            this.setState({state}, ()=> console.log(state));
+            this.setState({state});
         }
         if (stateKey === 'listItems') {
             const state = {...this.state};
             state[stateKey][index]['task'] = evt.target.value;
-            this.setState({state}, ()=> console.log(state));
+            this.setState({state});
         }
         // this.setState({state: newState})
     };
 
-    submit = () => {
-        const list = {};
-        list.title = this.state.titleValue;
-        list.listItems = this.state.listItems;
-        console.log(list);
+    doSubmit = () => {
+        let resp = saveList(this.state);
+        console.log(resp);
         this.props.history.replace('/')
     };
 
-    addNewItem = (index) => {
+    addNewItem = (e, index) => {
+        // console.log(this.state.card);
+        if (e.keyCode !== 13 && e.button !== 0) return;
+        console.log('aaa');
+        e.preventDefault();
         const listItems = [...this.state.listItems];
-        listItems.splice(index+1, 0,{
+        listItems.splice(index + 1, 0, {
             checked: false,
             task: ''
         });
         this.setState({listItems})
+
     };
+
+
     deleteItem = (index) => {
         const listItems = [...this.state.listItems];
         listItems.splice(index, 1);
@@ -63,8 +77,8 @@ class FormList extends Component {
             }}>
                 <wired-textarea
                     placeholder='Put title'
-                    onInput={(e) => this.handleChange(e, 'titleValue')}
-                    value={this.state.titleValue}
+                    onInput={(e) => this.handleChange(e, 'title')}
+                    value={this.state.title}
                 />
                 {this.state.listItems.map((listItem, index) => (<div className='d-flex'>
                     <wired-checkbox
@@ -76,22 +90,23 @@ class FormList extends Component {
                         innerRef={this.contentEditable}
                         html={listItem.task}
                         onChange={(e) => this.handleChange(e, 'listItems', index)}
-                        onEnter={() => console.log('enter')}
+                        onKeyDown={(e) => this.addNewItem(e, index)}
                         tagName='p'
                         style={{
                             minWidth: '220px',
+                            maxWidth: '450px',
                             borderBottom: '1px solid black'
                         }}
                     />
-                    <Button title='add new'
-                        onClick={()=> this.addNewItem(index)}
+                    <Button title='+' style={{height: '28px'}}
+                            onMouseUp={(e) => this.addNewItem(e, index)}
                     />
-                    <Button title='X'
-                            onClick={()=> this.deleteItem(index)}
+                    <Button title='X' style={{height: '28px'}}
+                            onClick={() => this.deleteItem(index)}
                     />
                 </div>))}
                 <br/>
-                <Button title='create' onClick={this.submit}/>
+                <Button title='create' onClick={this.doSubmit}/>
             </wired-card>
         );
     }

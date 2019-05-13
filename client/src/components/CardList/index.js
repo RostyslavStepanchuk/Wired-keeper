@@ -44,7 +44,7 @@ class CardList extends Component {
                         />
                     </div>))}
                     <Button
-                        title='Correct'
+                        title='Save'
                         onClick={() => onSave(cardList)}
                     />
                     <Button

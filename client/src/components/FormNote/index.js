@@ -1,20 +1,28 @@
 import React, {Component} from 'react';
 import Button from '../Button'
+import {saveNote} from '../../services/noteService'
 
 class FormNote extends Component {
-
-    handleInput = (e, stateKey) => {
-        const newStateItem = {};
-        newStateItem[stateKey] = e.target.value;
-
-        this.setState({...newStateItem});
+    state = {
+        card: {
+            title: '',
+            noteText: ''
+        }
     };
 
-    submit = () => {
-        const note = {};
-        note.title = this.state.titleValue;
-        note.noteText = this.state.textValue;
-        console.log(note);
+    handleInput = (e, stateKey) => {
+        const newState = {...this.state};
+        newState.card[stateKey] = e.target.value;
+
+        this.setState({...newState});
+    };
+
+    doSubmit = async () => {
+        // const note = {};
+        // note.title = this.state.title;
+        // note.noteText = this.state.noteText;
+        // console.log(note);
+        await saveNote(this.state.card);
         this.props.history.replace('/')
 
     };
@@ -29,15 +37,16 @@ class FormNote extends Component {
             }}>
                 <wired-textarea
                     placeholder='Put title'
-                    onInput={(e) => this.handleInput(e, 'titleValue')}
-                    value={this.state.titleValue}
+                    onInput={(e) => this.handleInput(e, 'title')}
+                    value={this.state.card.title}
                 />
                 <wired-textarea
                     placeholder='Write down what you want'
-                    onInput={(e) => this.handleInput(e, 'textValue')}
-                    value={this.state.titleValue}
-                /> <br/>
-                <Button title='create' onClick={this.submit}/>
+                    onInput={(e) => this.handleInput(e, 'noteText')}
+                    value={this.state.card.title}
+                />
+                <br/>
+                <Button title='create' onClick={this.doSubmit}/>
             </wired-card>
 
         );

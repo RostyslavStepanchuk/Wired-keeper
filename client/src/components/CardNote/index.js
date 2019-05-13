@@ -38,7 +38,7 @@ class CardNote extends Component {
                         tagName='p'
                     />
                     <Button
-                        title='Correct'
+                        title='Save'
                         onClick={() => onSave(cardNote)}
                     />
                     <Button
