@@ -19,6 +19,10 @@ class Note {
     static remove(id) {
         return db.deleteOne(collection, id);
     }
+
+    static getAll() {
+        return db.getFullCollection(collection)
+    }
 }
 
 module.exports = Note;

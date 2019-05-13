@@ -1,45 +1,43 @@
 const List = require('../models/List');
 
-class NotesController{
-    static createNote(req, res) {
+class ListsController{
+    static createList(req, res) {
         try {
             if (req.body) {
-                const note = new Note(req.body.title, req.body.noteText);
-                console.log(note);
-                    note.send()
-                    .then(createdNote => res.send(createdNote));
+                const list = new List(req.body.title, req.body.listItems);
+                    list.send()
+                    .then(createdList => res.send(createdList));
             } else throw new Error('Data wasn\'t received by server')
         } catch (e) {
-            console.log(`Failed to create new note`);
+            console.log(`Failed to create new list`);
             console.log(e);
             res.send(e);
         }
     }
 
-    static updateNote(req, res) {
+    static updateList(req, res) {
         try {
             if (req.body) {
-                const note = new Note(req.body.title, req.body.noteText, req.body.id);
-                console.log(note);
-                note.update()
-                    .then(createdNote => res.send(createdNote));
+                const list = new List(req.body.title, req.body.listItems, req.params.id);
+                list.update()
+                    .then(updatedList => res.send(updatedList));
             } else throw new Error('Data wasn\'t received by server')
         } catch (e) {
-            console.log(`Failed to update note`);
+            console.log(`Failed to update list`);
             console.log(e);
             res.send(e);
         }
     }
 
-    static deleteNote(req, res) {
+    static deleteList(req, res) {
         try {
             console.log(req.params);
-            Note.remove(req.params.id).then(removedNote => {
-                if (removedNote) res.send(removedNote);
+            List.remove(req.params.id).then(removedList => {
+                if (removedList) res.send(removedList);
                 else throw new Error('Requested id wasn\'t found')
             });
         } catch (e) {
-            console.log(`Failed to update note`);
+            console.log(`Failed to delete list`);
             console.log(e);
             res.send(e);
         }
@@ -47,4 +45,4 @@ class NotesController{
 
 }
 
-module.exports = NotesController;
+module.exports = ListsController;

@@ -1,17 +1,52 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
+const listsController = require('../controllers/listsController');
 
-router.post('/create', function(req, res, next) {
-res.send('list created')
+// TODO remove fakeRequest, make POST instead of GET
+router.get('/create', function(req, res, next) {
+    const fakeRequest = {body:
+            {
+                title: 'React',
+                listItems: [{
+                    checked: true,
+                    task: 'be react ninja asap'
+                },
+                    {
+                        checked: true,
+                        task: 'finish the course'
+                    },
+                    {
+                        checked: false,
+                        task: 'find a job'
+                    }
+                ]
+            }
+    };
+    listsController.createList(fakeRequest, res);
 });
 
-router.put('/:id/update', function(req, res, next) {
-    res.send('list updated')
+// TODO remove fakeRequest, make PUT instead of GET
+router.get('/:id/update', function(req, res, next) {
+    console.log(req.params);
+    const fakeRequest = {
+        body:
+            {
+                title: 'UPDATED React',
+                listItems: [{
+                    checked: true,
+                    task: 'be react ninja asap'
+                },
+                    {
+                        checked: false,
+                        task: 'finish the course'
+                    }
+                ]
+            },
+        params: req.params
+    };
+    listsController.updateList(fakeRequest, res);
 });
 
-router.get('/:id/delete', function(req, res, next) {
-    res.send('list deleted')
-});
+router.get('/:id/delete', listsController.deleteList);
 
 module.exports = router;
