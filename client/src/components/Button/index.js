@@ -10,6 +10,7 @@ function Button(props) {
     return (
         <wired-button {...props}>
             {props.title}
+
         </wired-button>
     );
 }

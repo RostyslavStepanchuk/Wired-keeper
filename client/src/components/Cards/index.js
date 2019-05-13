@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import CardList from '../CardList';
 import CardNote from '../CardNote';
+import CustomCard from '../customCard'
 import {getLists} from '../../fakeData/fakeLists'
 import {getNotes} from '../../fakeData/fakeNotes'
 
@@ -30,13 +31,9 @@ class Cards extends Component {
         }
     };
 
-    handleCorrect = () => {
-        console.log('corrected')
-    };
 
     handleCheck = (cardList, ItemIndex) => {
         const originalCardList=[...this.state.cardLists]
-
         const cardLists = [...this.state.cardLists];
         const index = cardLists.indexOf(cardList);
         cardLists[index] = {...cardLists[index]};
@@ -50,6 +47,27 @@ class Cards extends Component {
 
         this.setState({cardLists});
     };
+    handleSave = (card) => {
+        // http.post( url, card);
+        console.log('corrected', card)
+    };
+    handleChange = (notation) => {
+        // if (notation.type === 'list') {
+        //     const cardLists = [...this.state.cardLists];
+        //     cardLists[notation] = notation;
+        //     console.log(cardLists[notation])
+        //     // this.setState({cardLists});
+        // }
+        // if (notation.type === 'note') {
+        //     // console.log(notation);
+        //     const cardNotes = [...this.state.cardNotes];
+        //     cardNotes[notation] = notation;
+        //     console.log(cardNotes[notation]);
+        //     // this.setState({cardNotes})
+        // }
+        console.log('cards', notation)
+    };
+
 
     render() {
         return (
@@ -59,17 +77,28 @@ class Cards extends Component {
                         key={cardList.title}
                         cardList={cardList}
                         onCheck={this.handleCheck}
-                        onCorrect={this.handleCorrect}
+
+                        onSave={this.handleSave}
                         onDelete={this.handleDelete}
+                        onChange={this.handleChange}
+
                     />))}
                 {this.state.cardNotes.map(cardNote => (
                     <CardNote
                         key={cardNote.title}
                         cardNote={cardNote}
-                        onCorrect={this.handleCorrect}
+                        onSave={this.handleSave}
                         onDelete={this.handleDelete}
+                        onChange={this.handleChange}
+
                     />
                 ))}
+                {/*<CustomCard*/}
+                {/*key={'unique key'}*/}
+                {/*cardTitle={'this is super title'}*/}
+                {/*cardText={'some kind of text that can be changed'}*/}
+
+                {/*/>*/}
             </div>
         );
     }
