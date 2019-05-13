@@ -76,7 +76,7 @@ class Db {
         const client = await connect();
         try {
             const collection = client.db(dbName).collection(collectionName);
-            const updateResult = await collection.findOneAndUpdate({_id:doc._id},{"$set":doc.update,"$unset":doc.delete},{returnOriginal: false});
+            const updateResult = await collection.findOneAndUpdate({_id:doc._id},{"$set":doc},{returnOriginal: false});
             if (updateResult.value) {
                 console.log(`Object ${updateResult.value._id} updated in "${collectionName}"`);
                 return getIdAndTimeStamp(updateResult.value);
