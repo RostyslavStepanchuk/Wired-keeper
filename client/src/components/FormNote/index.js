@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Button from '../Button'
 
-class CardNote extends Component {
+class FormNote extends Component {
     state ={
       titleValue: '',
       textValue: '',
@@ -39,4 +39,4 @@ class CardNote extends Component {
     }
 }
 
-export default CardNote;
+export default FormNote;
