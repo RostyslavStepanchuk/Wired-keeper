@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import Button from '../Button'
 import ContentEditable from "react-contenteditable";
 
+import {WiredCard} from 'wired-card';
+
+
 class CardNote extends Component {
     updateNote = (evt, target) => {
         if (target === 'heading') {
@@ -15,6 +18,7 @@ class CardNote extends Component {
     };
 
     render() {
+
         const {cardNote, onSave, onDelete} = this.props;
 
 
@@ -42,6 +46,7 @@ class CardNote extends Component {
                         onClick={() => onDelete(cardNote)}
                     />
                 </wired-card>
+
             </div>
         );
     }

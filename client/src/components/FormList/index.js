@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 import Button from '../Button'
 // import {WiredCard, WiredCheckbox} from 'wired-elements';
@@ -94,6 +95,7 @@ class FormList extends Component {
             </wired-card>
         );
     }
+
 }
 
 export default FormList;

@@ -8,6 +8,7 @@ import logo from "./hand-drawn-pencil-icon.png";
 import './header.scss'
 import {NavLink} from "react-router-dom";
 
+
 Header.propTypes = {};
 
 function Header(props) {
@@ -18,6 +19,7 @@ function Header(props) {
                 <span className='header__logo-txt d-none d-md-inline-block'>WIRED-KEEPER</span>
             </div>
             <div className="header__buttons col-10 col-md-5">
+
                 <NavLink to='/createNote'>
                     <Button
                         title={'Create Note'}
@@ -31,6 +33,7 @@ function Header(props) {
             </div>
             <div className="header__search col-12 col-md-3">
                 <Search/>
+
             </div>
         </header>
     );

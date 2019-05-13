@@ -2,14 +2,11 @@ import React, {Component} from 'react';
 import Button from '../Button'
 
 class FormNote extends Component {
-    state = {
-        titleValue: '',
-        textValue: '',
-    };
 
     handleInput = (e, stateKey) => {
         const newStateItem = {};
         newStateItem[stateKey] = e.target.value;
+
         this.setState({...newStateItem});
     };
 
@@ -19,6 +16,7 @@ class FormNote extends Component {
         note.noteText = this.state.textValue;
         console.log(note);
         this.props.history.replace('/')
+
     };
 
     render() {
@@ -41,6 +39,7 @@ class FormNote extends Component {
                 /> <br/>
                 <Button title='create' onClick={this.submit}/>
             </wired-card>
+
         );
     }
 }

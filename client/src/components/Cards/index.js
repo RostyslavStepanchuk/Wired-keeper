@@ -31,9 +31,9 @@ class Cards extends Component {
         }
     };
 
+
     handleCheck = (cardList, ItemIndex) => {
-        // const originalCardList=[...this.state.cardLists];
-        console.log('handle check', cardList);
+        const originalCardList=[...this.state.cardLists]
         const cardLists = [...this.state.cardLists];
         const index = cardLists.indexOf(cardList);
         cardLists[index] = {...cardLists[index]};
@@ -77,6 +77,7 @@ class Cards extends Component {
                         key={cardList.title}
                         cardList={cardList}
                         onCheck={this.handleCheck}
+
                         onSave={this.handleSave}
                         onDelete={this.handleDelete}
                         onChange={this.handleChange}
@@ -89,6 +90,7 @@ class Cards extends Component {
                         onSave={this.handleSave}
                         onDelete={this.handleDelete}
                         onChange={this.handleChange}
+
                     />
                 ))}
                 {/*<CustomCard*/}

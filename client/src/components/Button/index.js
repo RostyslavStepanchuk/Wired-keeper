@@ -9,7 +9,8 @@ Button.propTypes = {
 function Button(props) {
     return (
         <wired-button {...props}>
-            {props.title || props.content}
+            {props.title}
+
         </wired-button>
     );
 }

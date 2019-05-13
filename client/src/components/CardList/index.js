@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 // import {WiredCard, WiredCheckbox} from 'wired-elements';
 import Button from '../Button'
+
 import ContentEditable from "react-contenteditable";
 
 
@@ -51,6 +52,7 @@ class CardList extends Component {
                         onClick={() => onDelete(cardList)}
                     />
                 </wired-card>
+
             </div>
         );
     }
