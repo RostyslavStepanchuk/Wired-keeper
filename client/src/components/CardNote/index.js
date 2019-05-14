@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import Button from '../Button'
 import ContentEditable from "react-contenteditable";
 
+import Card from "../common/card";
 import {WiredCard} from 'wired-card';
 
 
-class CardNote extends Component {
+class CardNote extends Card {
+
     updateNote = (evt, target) => {
         if (target === 'heading') {
             this.props.cardNote.title = evt.target.value;
@@ -25,18 +27,8 @@ class CardNote extends Component {
         return (
             <div className="body__card col-sm-6 col-lg-4">
                 <wired-card type={cardNote.type} style={{width: '100%'}}>
-                    <ContentEditable
-                        innerRef={this.contentEditable}
-                        html={cardNote.title}
-                        onChange={(e) => this.updateNote(e, 'heading')}
-                        tagName='h1'
-                    />
-                    <ContentEditable
-                        innerRef={this.contentEditable}
-                        html={cardNote.noteText}
-                        onChange={(e) => this.updateNote(e, 'noteText')}
-                        tagName='p'
-                    />
+                    {this.renderTitle(cardNote.title)}
+                    {this.renderParagraph(cardNote.noteText)}
                     <Button
                         title='Save'
                         onClick={() => onSave(cardNote)}

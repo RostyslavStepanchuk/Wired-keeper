@@ -3,9 +3,10 @@ import Button from '../Button'
 // import {WiredCard, WiredCheckbox} from 'wired-elements';
 import ContentEditable from "react-contenteditable";
 import {saveList} from '../../services/listService'
+import Card from "../common/card";
 
 
-class FormList extends Component {
+class FormList extends Card {
 
     // state = {
     //     card: {
@@ -40,9 +41,9 @@ class FormList extends Component {
         // this.setState({state: newState})
     };
 
-    doSubmit = () => {
-        let resp = saveList(this.state);
-        console.log(resp);
+    doSubmit = async () => {
+        // let resp = await saveList(this.state);
+        // console.log(resp);
         this.props.history.replace('/')
     };
 

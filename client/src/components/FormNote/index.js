@@ -18,11 +18,7 @@ class FormNote extends Component {
     };
 
     doSubmit = async () => {
-        // const note = {};
-        // note.title = this.state.title;
-        // note.noteText = this.state.noteText;
-        // console.log(note);
-        await saveNote(this.state.card);
+        // await saveNote(this.state.card);
         this.props.history.replace('/')
 
     };
