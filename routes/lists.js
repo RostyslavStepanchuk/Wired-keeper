@@ -29,6 +29,6 @@ router.get('/:id/update', function(req, res, next) {
     listsController.updateList(fakeRequest, res);
 });
 
-router.get('/:id/delete', listsController.deleteList);
+router.delete('/:id/delete', listsController.deleteList);
 
 module.exports = router;

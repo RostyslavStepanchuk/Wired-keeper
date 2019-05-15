@@ -43,12 +43,6 @@ class FormList extends Card {
 
     doSubmit = async () => {
         let resp = await saveList(this.state);
-        const body = JSON.stringify(this.state);
-        // console.log('SENDING:');
-        // console.log(body);
-        // fetch('http://localhost:8000/lists/create',{method:'POST', headers:{'Content-Type': 'application/json'}, body}).then((resp)=>resp.json()).then(data=>console.log(data))
-
-        console.log(resp.data);
         this.props.history.replace('/')
     };
 
@@ -74,6 +68,8 @@ class FormList extends Card {
     };
 
     render() {
+        console.log('LISTFORM');
+        console.log(this.props)
         return (
             <wired-card style={{
                 width: '500px',

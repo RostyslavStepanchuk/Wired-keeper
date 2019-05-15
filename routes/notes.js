@@ -4,11 +4,7 @@ const notesController = require('../controllers/notesController');
 
 router.get('/', notesController.index);
 
-// TODO remove fakeRequest, make POST instead of GET
-router.get('/create', function(req, res, next) {
-    const fakeRequest = {body:{title:'FirstNote',noteText:'UPDATED Note text'}};
-    notesController.createNote(fakeRequest, res);
-});
+router.post('/create', notesController.createNote);
 
 // TODO remove fakeRequest, make PUT instead of GET
 router.put('/:id/update', function(req, res, next) {
@@ -16,7 +12,7 @@ router.put('/:id/update', function(req, res, next) {
     notesController.updateNote(fakeRequest, res);
 });
 
-router.get('/:id/delete', notesController.deleteNote);
+router.delete('/:id/delete', notesController.deleteNote);
 
 module.exports = router;
 

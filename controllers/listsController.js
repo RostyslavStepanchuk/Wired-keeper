@@ -18,7 +18,10 @@ class ListsController{
             if (req.body) {
                 const list = new List(req.body.title, req.body.listItems);
                     list.send()
-                    .then(createdList => res.send(createdList));
+                    .then(createdList => {
+                        createdList.type = 'list';
+                        res.send(createdList)
+                    });
             } else throw new Error('Data wasn\'t received by server')
         } catch (e) {
             console.log(`Failed to create new list`);

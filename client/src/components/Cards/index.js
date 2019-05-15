@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import CardList from '../CardList';
 import CardNote from '../CardNote';
-import { deleteNote, getNotes,updateNote} from '../../services/noteService'; // add getLists and getNotes from services
-import { deleteList, getLists, updateList} from "../../services/listService";
+import {deleteNote, getNotes, updateNote} from '../../services/noteService'; // add getLists and getNotes from services
+import {deleteList, getLists, updateList} from "../../services/listService";
+import {getNotations} from "../../services/notations";
 // import {getLists} from '../../fakeData/fakeLists'
 // import {getNotes} from '../../fakeData/fakeNotes'
 
@@ -10,20 +11,23 @@ import './Cards.scss'
 
 class Cards extends Component {
     state = {
-        cardLists: [],
-        cardNotes: [],
+        // cardLists: [],
+        // cardNotes: [],
+        notations: []
     };
 
+
     async componentDidMount() {
-        const cardLists = await getLists();
-        const cardNotes = await getNotes();
-
-        console.log(cardLists);
-        console.log(cardNotes);
-
-
-        this.setState({cardLists});
-        this.setState({cardNotes});
+        // const cardLists = await getLists();
+        // const cardNotes = await getNotes();
+        const notations = await getNotations();
+        console.log(notations);
+        // console.log(cardLists);
+        // console.log(cardNotes);
+        this.setState({notations})
+        //
+        // this.setState({cardLists});
+        // this.setState({cardNotes});
 //dev
         // fetch('http://localhost:8000').then((resp)=>resp.json()).then(data=>console.log(data));
     }
@@ -42,7 +46,7 @@ class Cards extends Component {
                 this.setState({cardNotes: originalLists});
             }
 
-        } else {
+        } else if (notation.type === 'note'){
             const originalNotes = this.state.cardNotes;
             const cardNotes = this.state.cardNotes.filter(note => note._id !== notation._id);
             this.setState({cardNotes});
@@ -54,7 +58,7 @@ class Cards extends Component {
                 alert("This movie has already been deleted.");
                 this.setState({cardLists: originalNotes});
             }
-        }
+        } else {throw new Error ('Invalid card type')}
     };
 
 
@@ -73,10 +77,10 @@ class Cards extends Component {
 
         this.setState({cardLists});
     };
-    handleSave = async(notation) => {
+    handleSave = async (notation) => {
         console.log('corrected', notation);
         if (notation.type === 'list') {
-           await updateList(notation.id)
+            await updateList(notation.id)
         } else {
             await updateNote(notation.id)
         }
@@ -102,33 +106,47 @@ class Cards extends Component {
     render() {
         return (
             <div className='body row p-2'>
-                {this.state.cardLists.map(cardList => (
-                    <CardList
-                        key={cardList.title}
-                        cardList={cardList}
-                        onCheck={this.handleCheck}
+                {this.state.notations.map(notation => (
+                        notation.type === 'list' ?
+                            <CardList
+                                key={notation.title}
+                                cardList={notation}
+                                onCheck={this.handleCheck}
 
-                        onSave={this.handleSave}
-                        onDelete={this.handleDelete}
-                        onChange={this.handleChange}
+                                onSave={this.handleSave}
+                                onDelete={this.handleDelete}
+                                onChange={this.handleChange}
+                            /> :
+                            <CardNote
+                                key={notation.title}
+                                cardNote={notation}
+                                onSave={this.handleSave}
+                                onDelete={this.handleDelete}
+                                onChange={this.handleChange}
+                            />
+                    )
+                )}
+                {/*{this.state.cardLists.map(cardList => (*/}
+                {/*<CardList*/}
+                {/*key={cardList.title}*/}
+                {/*cardList={cardList}*/}
+                {/*onCheck={this.handleCheck}*/}
 
-                    />))}
-                {this.state.cardNotes.map(cardNote => (
-                    <CardNote
-                        key={cardNote.title}
-                        cardNote={cardNote}
-                        onSave={this.handleSave}
-                        onDelete={this.handleDelete}
-                        onChange={this.handleChange}
+                {/*onSave={this.handleSave}*/}
+                {/*onDelete={this.handleDelete}*/}
+                {/*onChange={this.handleChange}*/}
 
-                    />
-                ))}
-                {/*<CustomCard*/}
-                {/*key={'unique key'}*/}
-                {/*cardTitle={'this is super title'}*/}
-                {/*cardText={'some kind of text that can be changed'}*/}
+                {/*/>))}*/}
+                {/*{this.state.cardNotes.map(cardNote => (*/}
+                {/*<CardNote*/}
+                {/*key={cardNote.title}*/}
+                {/*cardNote={cardNote}*/}
+                {/*onSave={this.handleSave}*/}
+                {/*onDelete={this.handleDelete}*/}
+                {/*onChange={this.handleChange}*/}
 
                 {/*/>*/}
+                {/*))}*/}
             </div>
         );
     }
