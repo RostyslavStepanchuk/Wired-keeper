@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import CardList from '../CardList';
 import CardNote from '../CardNote';
 import {deleteNote, getNotes, updateNote} from '../../services/noteService'; // add getLists and getNotes from services
@@ -10,55 +11,15 @@ import {getNotations} from "../../services/notations";
 import './Cards.scss'
 
 class Cards extends Component {
+    static propTypes = {
+        notations: PropTypes.array.isRequired,
+        handleDelete: PropTypes.func.isRequired,
+    };
+
     state = {
         // cardLists: [],
         // cardNotes: [],
         notations: []
-    };
-
-
-    async componentDidMount() {
-        // const cardLists = await getLists();
-        // const cardNotes = await getNotes();
-        const notations = await getNotations();
-        console.log(notations);
-        // console.log(cardLists);
-        // console.log(cardNotes);
-        this.setState({notations})
-        //
-        // this.setState({cardLists});
-        // this.setState({cardNotes});
-//dev
-        // fetch('http://localhost:8000').then((resp)=>resp.json()).then(data=>console.log(data));
-    }
-
-    handleDelete = async notation => {
-        if (notation.type === 'list') {
-            const originalLists = this.state.cardLists;
-            const cardLists = this.state.cardLists.filter(list => list._id !== notation._id);
-            this.setState({cardLists});
-
-            try {
-                await deleteList(notation.id);
-            } catch (ex) {
-                if (ex.response && ex.response.status === 404) console.log("x");
-                alert("This movie has already been deleted.");
-                this.setState({cardNotes: originalLists});
-            }
-
-        } else if (notation.type === 'note'){
-            const originalNotes = this.state.cardNotes;
-            const cardNotes = this.state.cardNotes.filter(note => note._id !== notation._id);
-            this.setState({cardNotes});
-
-            try {
-                await deleteNote(notation.id);
-            } catch (ex) {
-                if (ex.response && ex.response.status === 404) console.log("x");
-                alert("This movie has already been deleted.");
-                this.setState({cardLists: originalNotes});
-            }
-        } else {throw new Error ('Invalid card type')}
     };
 
 
@@ -71,10 +32,9 @@ class Cards extends Component {
         try {
             updateList(cardList.id)
         } catch (ex) {
-            alert('trevoga')
+            alert('trevoga');
             this.setState({cardLists: originalLists})
         }
-
         this.setState({cardLists});
     };
     handleSave = async (notation) => {
@@ -104,9 +64,10 @@ class Cards extends Component {
 
 
     render() {
+        const {handleDelete} = this.props;
         return (
             <div className='body row p-2'>
-                {this.state.notations.map(notation => (
+                {this.props.notations.map(notation => (
                         notation.type === 'list' ?
                             <CardList
                                 key={notation.title}
@@ -114,14 +75,14 @@ class Cards extends Component {
                                 onCheck={this.handleCheck}
 
                                 onSave={this.handleSave}
-                                onDelete={this.handleDelete}
+                                onDelete={handleDelete}
                                 onChange={this.handleChange}
                             /> :
                             <CardNote
                                 key={notation.title}
                                 cardNote={notation}
                                 onSave={this.handleSave}
-                                onDelete={this.handleDelete}
+                                onDelete={handleDelete}
                                 onChange={this.handleChange}
                             />
                     )
