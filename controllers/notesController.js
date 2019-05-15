@@ -16,7 +16,10 @@ class NotesController{
             if (req.body) {
                 const note = new Note(req.body.title, req.body.noteText);
                     note.send()
-                    .then(createdNote => res.send(createdNote));
+                    .then(createdNote => {
+                        createdNote.type = 'note';
+                        res.send(createdNote)
+                    });
             } else throw new Error('Data wasn\'t received by server')
         } catch (e) {
             console.log(`Failed to create new note`);

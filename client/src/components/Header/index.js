@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {Component} from 'react';
 
 import Button from '../Button'
 import Search from '../Search'
@@ -7,9 +6,6 @@ import logo from "./hand-drawn-pencil-icon.png";
 
 import './header.scss'
 import {NavLink} from "react-router-dom";
-
-
-Header.propTypes = {};
 
 function Header(props) {
     return (

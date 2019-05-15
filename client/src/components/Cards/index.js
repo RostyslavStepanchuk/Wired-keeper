@@ -21,7 +21,6 @@ class Cards extends Component {
         console.log(cardLists);
         console.log(cardNotes);
 
-
         this.setState({cardLists});
         this.setState({cardNotes});
 //dev
@@ -31,7 +30,7 @@ class Cards extends Component {
     handleDelete = async notation => {
         if (notation.type === 'list') {
             const originalLists = this.state.cardLists;
-            const cardLists = this.state.cardLists.filter(list => list._id !== notation._id);
+            const cardLists = this.state.cardLists.filter(list => list.id !== notation._id);
             this.setState({cardLists});
 
             try {
@@ -44,7 +43,7 @@ class Cards extends Component {
 
         } else {
             const originalNotes = this.state.cardNotes;
-            const cardNotes = this.state.cardNotes.filter(note => note._id !== notation._id);
+            const cardNotes = this.state.cardNotes.filter(note => note.id !== notation.id);
             this.setState({cardNotes});
 
             try {
@@ -57,6 +56,11 @@ class Cards extends Component {
         }
     };
 
+    handleAdd = newCard => {
+        const cards = [...this.state.cards];
+        cards.push(newCard);
+        this.setState({cards})
+    };
 
     handleCheck = (cardList, ItemIndex) => {
         const originalLists = [...this.state.cardLists];
@@ -100,6 +104,7 @@ class Cards extends Component {
 
 
     render() {
+        console.log(this.state.cards);
         return (
             <div className='body row p-2'>
                 {this.state.cardLists.map(cardList => (
