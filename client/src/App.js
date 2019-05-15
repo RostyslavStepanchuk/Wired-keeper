@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import Header from './components/Header'
 import {Route, Switch} from 'react-router-dom'
 import Cards from './components/Cards'
@@ -11,18 +11,44 @@ import {deleteNote} from "./services/noteService";
 
 
 class App extends Component {
-    state= {
-        notations:[]
+    state = {
+        notations: [],
+        searchQuery: '',
+        notationTypes: ['All', 'notes', 'lists'],
+        selectedType: 'All'
     };
 
-    componentDidMount() {
-        getNotations().then(notations=>this.setState({notations}));
+
+    async componentDidMount() {
+        console.log('mounted');
+        let notations = await getNotations();
+        this.setState({notations})
         // fetch('http://localhost:8000').then((resp)=>resp.json()).then(data=>console.log(data));
     }
 
+    handleSearch = query => {
+        this.setState({searchQuery: query, selectedType: 'All'});
+        console.log(query)
+    };
+    handleSelectedType = type => {
+        this.setState({selectedType: type});
+        console.log('tr')
+    };
+    getPagedData =   () => {
+        let newNotes =   [...this.state.notations];
+        const {searchQuery, selectedType} = this.state;
+        let filtered =  [...newNotes];
+        if (searchQuery)
+            filtered = newNotes.filter(notation => notation.title.toLowerCase().startsWith(searchQuery.toLowerCase()));
+        else if (selectedType !== 'All')
+            filtered = selectedType === 'lists' ? newNotes.filter(n => n.type === 'lists') : newNotes.filter(n => n.type === 'notes');
+        return filtered; // then you should map 'filtered' inside render -> cards = getPagedData()
+    };
+
+
     handleDelete = async card => {
         const originalNotations = [...this.state.notations];
-        const notations = originalNotations.filter(notation=> notation.id !== card.id);
+        const notations = originalNotations.filter(notation => notation.id !== card.id);
         console.log(notations);
         this.setState({notations});
 
@@ -48,25 +74,29 @@ class App extends Component {
             updateList(cardList.id)
         } catch (ex) {
             alert('trevoga');
-            this.setState({cardLists: originalLists})
+            this.setState({cardLists: originalNotations})
         }
         this.setState({cardLists});
     };
 
 
     render() {
-        const {notations} = this.state;
+        const { searchQuery, notationTypes} = this.state;
+        const notations  = this.getPagedData();
         return (
             <React.Fragment>
-                <Header notations={notations}/>
+                <Header notations={notations} value={searchQuery} onSearch={this.handleSearch}/>
                 <div className='container'>
                     <Route path='/createNote' component={FormNote}/>
                     <Route path='/createList' component={FormList}/>
-                    <Route path='/' render={(props)=><Cards {...props} handleDelete={this.handleDelete} notations={notations}/>}/>
+                    <Route path='/' render={(props) => <Cards {...props}
+                                                              notationTypes={notationTypes}
+                                                              handleType={this.handleSelectedType}
+                                                              handleDelete={this.handleDelete}
+                                                              notations={notations}/>}/>
                     {/*<Cards className='row'/>*/}
                     {/*<Footer className='row'/>*/}
                 </div>
-
             </React.Fragment>
         );
     }
