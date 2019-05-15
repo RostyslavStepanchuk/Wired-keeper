@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import CardList from '../CardList';
 import CardNote from '../CardNote';
+import NotationCatalog from '../NotationCatalog'
 import {deleteNote, getNotes, updateNote} from '../../services/noteService'; // add getLists and getNotes from services
 import {deleteList, getLists, updateList} from "../../services/listService";
 import {getNotations} from "../../services/notations";
@@ -64,10 +65,17 @@ class Cards extends Component {
 
 
     render() {
-        const {handleDelete} = this.props;
+        const { notations, notationTypes, handleDelete, handleType} = this.props;
+        if (!notations.length) return <p>There are no notations in your database</p>;
         return (
             <div className='body row p-2'>
-                {this.props.notations.map(notation => (
+                <div style={{display: 'block'}}>
+                    <NotationCatalog
+                        notationTypes={notationTypes}
+                        handleType={handleType}
+                    />
+                </div>
+                {notations.map(notation => (
                         notation.type === 'list' ?
                             <CardList
                                 key={notation.title}
@@ -77,7 +85,8 @@ class Cards extends Component {
                                 onSave={this.handleSave}
                                 onDelete={handleDelete}
                                 onChange={this.handleChange}
-                            /> :
+                            />
+                            :
                             <CardNote
                                 key={notation.title}
                                 cardNote={notation}
@@ -86,30 +95,50 @@ class Cards extends Component {
                                 onChange={this.handleChange}
                             />
                     )
-                )}
-                {/*{this.state.cardLists.map(cardList => (*/}
-                {/*<CardList*/}
-                {/*key={cardList.title}*/}
-                {/*cardList={cardList}*/}
-                {/*onCheck={this.handleCheck}*/}
+                )
+                }
+                {/*{this.state.cardLists.map(cardList => (*/
+                }
+                {/*<CardList*/
+                }
+                {/*key={cardList.title}*/
+                }
+                {/*cardList={cardList}*/
+                }
+                {/*onCheck={this.handleCheck}*/
+                }
 
-                {/*onSave={this.handleSave}*/}
-                {/*onDelete={this.handleDelete}*/}
-                {/*onChange={this.handleChange}*/}
+                {/*onSave={this.handleSave}*/
+                }
+                {/*onDelete={this.handleDelete}*/
+                }
+                {/*onChange={this.handleChange}*/
+                }
 
-                {/*/>))}*/}
-                {/*{this.state.cardNotes.map(cardNote => (*/}
-                {/*<CardNote*/}
-                {/*key={cardNote.title}*/}
-                {/*cardNote={cardNote}*/}
-                {/*onSave={this.handleSave}*/}
-                {/*onDelete={this.handleDelete}*/}
-                {/*onChange={this.handleChange}*/}
+                {/*/>))}*/
+                }
+                {/*{this.state.cardNotes.map(cardNote => (*/
+                }
+                {/*<CardNote*/
+                }
+                {/*key={cardNote.title}*/
+                }
+                {/*cardNote={cardNote}*/
+                }
+                {/*onSave={this.handleSave}*/
+                }
+                {/*onDelete={this.handleDelete}*/
+                }
+                {/*onChange={this.handleChange}*/
+                }
 
-                {/*/>*/}
-                {/*))}*/}
+                {/*/>*/
+                }
+                {/*))}*/
+                }
             </div>
-        );
+        )
+            ;
     }
 }
 
