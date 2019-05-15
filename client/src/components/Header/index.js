@@ -7,7 +7,7 @@ import logo from "./hand-drawn-pencil-icon.png";
 import './header.scss'
 import {NavLink} from "react-router-dom";
 
-function Header(props) {
+function Header({value, onSearch}) {
     return (
         <header className='row p-2'>
             <div className='header__logo col-2 col-md-4 align-content-center'>
@@ -28,8 +28,7 @@ function Header(props) {
                 </NavLink>
             </div>
             <div className="header__search col-12 col-md-3">
-                <Search/>
-
+                <Search value={value} onSearch={onSearch}/>
             </div>
         </header>
     );

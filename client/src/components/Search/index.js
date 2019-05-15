@@ -8,10 +8,10 @@ import './Search.scss'
 
 Search.propTypes = {};
 
-function Search(props) {
+function Search({value, onSearch}) {
     return (
         <div className='row position-relative'>
-            <wired-input class='input-field' type='text'/>
+            <wired-input className='input-field' value={value}  onInput={(e)=> onSearch(e.currentTarget.value)} type='text'/>
             <img className='loop' src={loop} alt="loop"/>
         </div>
     );

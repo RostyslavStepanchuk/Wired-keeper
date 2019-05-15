@@ -11,14 +11,38 @@ import {deleteNote, updateNote} from "./services/noteService";
 
 
 class App extends Component {
-    state= {
-        notations:[]
+    state = {
+        notations: [],
+        searchQuery: '',
+        notationTypes: ['All', 'notes', 'lists'],
+        selectedType: 'All'
     };
 
-    componentDidMount() {
-        getNotations().then(notations=>this.setState({notations}));
+    async componentDidMount() {
+        console.log('mounted');
+        let notations = await getNotations();
+        this.setState({notations})
         // fetch('http://localhost:8000').then((resp)=>resp.json()).then(data=>console.log(data));
     }
+
+    handleSearch = query => {
+        this.setState({searchQuery: query, selectedType: 'All'});
+        console.log(query)
+    };
+    handleSelectedType = type => {
+        this.setState({selectedType: type});
+        console.log('tr')
+    };
+    getPagedData =   () => {
+        let newNotes =   [...this.state.notations];
+        const {searchQuery, selectedType} = this.state;
+        let filtered =  [...newNotes];
+        if (searchQuery)
+            filtered = newNotes.filter(notation => notation.title.toLowerCase().startsWith(searchQuery.toLowerCase()));
+        else if (selectedType !== 'All')
+            filtered = selectedType === 'lists' ? newNotes.filter(n => n.type === 'lists') : newNotes.filter(n => n.type === 'notes');
+        return filtered; // then you should map 'filtered' inside render -> cards = getPagedData()
+    };
 
     handleDelete = async card => {
         const originalNotations = [...this.state.notations];
@@ -72,7 +96,9 @@ class App extends Component {
 
 
     render() {
-        const {notations} = this.state;
+        const { searchQuery, notationTypes} = this.state;
+        const notations  = this.getPagedData();
+
         return (
             <React.Fragment>
                 <Header notations={notations}/>
@@ -86,6 +112,8 @@ class App extends Component {
                                 <Cards
                                     {...props}
                                     notations={notations}
+                                    notationTypes={notationTypes}
+                                    handleType={this.handleSelectedType}
                                     handleDelete={this.handleDelete}
                                     handleCheck={this.handleCheck}
                                     handleSave = {this.handleSave}
