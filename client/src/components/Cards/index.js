@@ -18,6 +18,9 @@ class Cards extends Component {
         const cardLists = await getLists();
         const cardNotes = await getNotes();
 
+        console.log(cardLists);
+        console.log(cardNotes);
+
 
         this.setState({cardLists});
         this.setState({cardNotes});
