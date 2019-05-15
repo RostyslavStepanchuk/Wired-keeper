@@ -1,25 +1,32 @@
 import React, {Component} from 'react';
-// import {WiredCard, WiredCheckbox} from 'wired-elements';
+
+import PropTypes from 'prop-types'
 import Button from '../Button'
 
-import ContentEditable from "react-contenteditable";
+// import ContentEditable from "react-contenteditable";
 import Card from "../common/card";
 
 
 class CardList extends Card {
+    static propTypes ={
+        cardList: PropTypes.object.isRequired,
+        onCheck: PropTypes.func.isRequired,
+        onDelete: PropTypes.func.isRequired,
+        onSave: PropTypes.func.isRequired
+    };
+
     updateList = (evt, target, index) => {
         if (target === 'heading') {
             this.props.cardList.title = evt.target.value;
-            this.props.onChange(this.props.cardList)
+            // this.props.onChange(this.props.cardList)
         }
         if (target === 'listItem') {
             this.props.cardList.listItems[index] = evt.target.value;
-            this.props.onChange(this.props.cardList)
+            // this.props.onChange(this.props.cardList)
         }
     };
     handleCheck = (cardList, index) => {
         this.props.onCheck(cardList, index);
-        console.log(cardList);
     };
 
     render() {
@@ -32,7 +39,7 @@ class CardList extends Card {
                     {this.renderListItems(cardList)}
                     <Button
                         title='Save'
-                        onClick={() => onSave(cardList)}
+                        onClick={() => onSave(cardList.id)}
                     />
                     <Button
                         title='Delete'
@@ -46,3 +53,4 @@ class CardList extends Card {
 }
 
 export default CardList;
+

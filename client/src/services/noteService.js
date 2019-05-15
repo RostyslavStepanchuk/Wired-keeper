@@ -17,8 +17,9 @@ export function saveNote(note) {
     return http.post(`${apiEndpoint}/create`, note);
 }
 
-export function updateNote(noteId) {
-    return http.put(`${apiEndpoint}/${noteId}/update`)
+export function updateNote(note) {
+    const noteId = note.id;
+    return http.put(`${apiEndpoint}/${noteId}/update`,note);
 }
 
 export function deleteNote(noteId) {

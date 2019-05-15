@@ -15,14 +15,15 @@ class Cards extends Component {
     static propTypes = {
         notations: PropTypes.array.isRequired,
         handleDelete: PropTypes.func.isRequired,
+        handleCheck: PropTypes.func.isRequired,
+        handleSave: PropTypes.func.isRequired,
+        notationTypes: PropTypes.string,
+        handleType:PropTypes.func.isRequired
     };
 
     state = {
-        // cardLists: [],
-        // cardNotes: [],
         notations: []
     };
-
 
     handleCheck = (cardList, ItemIndex) => {
         const originalLists = [...this.state.cardLists];
@@ -38,35 +39,11 @@ class Cards extends Component {
         }
         this.setState({cardLists});
     };
-    handleSave = async (notation) => {
-        console.log('corrected', notation);
-        if (notation.type === 'list') {
-            await updateList(notation.id)
-        } else {
-            await updateNote(notation.id)
-        }
-    };
-    handleChange = (notation) => {
-        // if (notation.type === 'list') {
-        //     const cardLists = [...this.state.cardLists];
-        //     cardLists[notation] = notation;
-        //     console.log(cardLists[notation])
-        //     // this.setState({cardLists});
-        // }
-        // if (notation.type === 'note') {
-        //     // console.log(notation);
-        //     const cardNotes = [...this.state.cardNotes];
-        //     cardNotes[notation] = notation;
-        //     console.log(cardNotes[notation]);
-        //     // this.setState({cardNotes})
-        // }
-        console.log('cards', notation)
-    };
 
 
     render() {
-        const { notations, notationTypes, handleDelete, handleType} = this.props;
-        if (!notations.length) return <p>There are no notations in your database</p>;
+        const {notations,notationTypes, handleDelete, handleCheck, handleSave} = this.props;
+        if (!notations.length) return <p>Nothing here yet. Create some note or to-do-list</p>;
         return (
             <div className='body row p-2'>
                 <div style={{display: 'block'}}>
@@ -80,62 +57,19 @@ class Cards extends Component {
                             <CardList
                                 key={notation.title}
                                 cardList={notation}
-                                onCheck={this.handleCheck}
+                                onCheck={handleCheck}
 
-                                onSave={this.handleSave}
+                                onSave={handleSave}
                                 onDelete={handleDelete}
-                                onChange={this.handleChange}
-                            />
-                            :
+                            /> :
                             <CardNote
                                 key={notation.title}
                                 cardNote={notation}
-                                onSave={this.handleSave}
+                                onSave={handleSave}
                                 onDelete={handleDelete}
-                                onChange={this.handleChange}
                             />
                     )
-                )
-                }
-                {/*{this.state.cardLists.map(cardList => (*/
-                }
-                {/*<CardList*/
-                }
-                {/*key={cardList.title}*/
-                }
-                {/*cardList={cardList}*/
-                }
-                {/*onCheck={this.handleCheck}*/
-                }
-
-                {/*onSave={this.handleSave}*/
-                }
-                {/*onDelete={this.handleDelete}*/
-                }
-                {/*onChange={this.handleChange}*/
-                }
-
-                {/*/>))}*/
-                }
-                {/*{this.state.cardNotes.map(cardNote => (*/
-                }
-                {/*<CardNote*/
-                }
-                {/*key={cardNote.title}*/
-                }
-                {/*cardNote={cardNote}*/
-                }
-                {/*onSave={this.handleSave}*/
-                }
-                {/*onDelete={this.handleDelete}*/
-                }
-                {/*onChange={this.handleChange}*/
-                }
-
-                {/*/>*/
-                }
-                {/*))}*/
-                }
+                )}
             </div>
         )
             ;

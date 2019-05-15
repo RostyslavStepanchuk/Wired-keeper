@@ -31,7 +31,7 @@ class CardNote extends Card {
                     {this.renderParagraph(cardNote.noteText)}
                     <Button
                         title='Save'
-                        onClick={() => onSave(cardNote)}
+                        onClick={() => onSave(cardNote.id)}
                     />
                     <Button
                         title='Delete'
