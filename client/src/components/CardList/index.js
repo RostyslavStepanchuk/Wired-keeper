@@ -10,40 +10,61 @@ import Card from "../common/card";
 class CardList extends Card {
     static propTypes ={
         cardList: PropTypes.object.isRequired,
-        onCheck: PropTypes.func.isRequired,
         onDelete: PropTypes.func.isRequired,
         onSave: PropTypes.func.isRequired
     };
 
-    updateList = (evt, target, index) => {
-        if (target === 'heading') {
-            this.props.cardList.title = evt.target.value;
-            // this.props.onChange(this.props.cardList)
-        }
-        if (target === 'listItem') {
-            this.props.cardList.listItems[index] = evt.target.value;
-            // this.props.onChange(this.props.cardList)
-        }
+    state = {
+        title: this.props.cardList.title,
+        listItems:this.props.cardList.listItems,
+        wasUpdated: false
     };
-    handleCheck = (cardList, index) => {
-        this.props.onCheck(cardList, index);
+
+    handleTitleChange = e => {
+        this.setState({title: e.target.value, wasUpdated:true});
     };
+
+    handleTaskDescriptionChange = (e, taskIndex) => {
+        const listItems = JSON.parse(JSON.stringify(this.state.listItems));
+        listItems[taskIndex].task = e.target.value;
+        this.setState({listItems, wasUpdated:true})
+    };
+
+    handleCheckboxTick = (e, taskIndex) => {
+        const listItems = JSON.parse(JSON.stringify(this.state.listItems));
+        listItems[taskIndex].checked = !listItems[taskIndex].checked;
+        this.setState({listItems}, this.handleSave);
+    };
+
+    handleSave = () => {
+        const notation = {
+            id: this.props.cardList.id,
+            title:this.state.title,
+            listItems:this.state.listItems,
+            type:this.props.cardList.type
+        };
+
+      this.props.onSave(notation)
+    };
+
 
     render() {
-        const {cardList, onSave, onDelete} = this.props;
+        const {cardList, onDelete} = this.props;
+        const {title, listItems, wasUpdated} = this.state;
 
         return (
-            <div className="body__card col-sm-6 col-lg-4">
+            <div key={cardList.id} className="body__card col-sm-6 col-lg-4">
                 <wired-card type={cardList.type} style={{width: '100%'}}>
-                    {this.renderTitle(cardList.title)}
-                    {this.renderListItems(cardList)}
+                    {this.renderTitle(title)}
+                    {this.renderListItems(listItems)}
                     <Button
                         title='Save'
-                        onClick={() => onSave(cardList.id)}
+                        disabled={wasUpdated ? null :'disabled'}
+                        onClick={this.handleSave}
                     />
                     <Button
                         title='Delete'
-                        onClick={() => onDelete(cardList)}
+                        onClick={() => onDelete(cardList.id, cardList.type)}
                     />
                 </wired-card>
 

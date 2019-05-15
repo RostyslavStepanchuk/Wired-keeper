@@ -7,8 +7,8 @@ class Card extends Component {
             <ContentEditable
                 innerRef={this.contentEditable}
                 html={title}
-                onChange={(e) => this.updateNote(e, 'heading')}
                 tagName='h1'
+                onChange={this.handleTitleChange}
             />
         )
     }
@@ -18,26 +18,27 @@ class Card extends Component {
             <ContentEditable
                 innerRef={this.contentEditable}
                 html={text}
-                onChange={(e) => this.updateNote(e, 'noteText')}
                 tagName='p'
+                onChange={this.handleTextChange}
+
             />
         )
     }
 
-    renderListItems(cardList) {
+    renderListItems(listItems) {
         return (
-            cardList.listItems.map((listItem, index) => (
+            listItems.map((listItem, index) => (
                 <div key={`${listItem.task}-group`} className='d-flex'>
                     <wired-checkbox
                         checked={listItem.checked ? 'checked' : null}
-                        onClick={() => this.handleCheck(cardList.id, index)}
                         style={{whiteSpace: 'normal'}}
+                        onClick={(e)=>this.handleCheckboxTick(e,index)}
                     />
                     <ContentEditable
                         innerRef={this.contentEditable}
                         html={listItem.task}
-                        onChange={(e) => this.updateList(e, 'listItem', index)}
                         tagName='p'
+                        onChange={(e)=>this.handleTaskDescriptionChange(e,index)}
                     />
                 </div>)
             )

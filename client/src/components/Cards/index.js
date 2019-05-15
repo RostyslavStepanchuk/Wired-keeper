@@ -15,7 +15,7 @@ class Cards extends Component {
     static propTypes = {
         notations: PropTypes.array.isRequired,
         handleDelete: PropTypes.func.isRequired,
-        handleCheck: PropTypes.func.isRequired,
+        // handleCheck: PropTypes.func.isRequired,
         handleSave: PropTypes.func.isRequired,
         notationTypes: PropTypes.array.isRequired,
         handleType:PropTypes.func.isRequired
@@ -57,8 +57,6 @@ class Cards extends Component {
                             <CardList
                                 key={notation.title}
                                 cardList={notation}
-                                onCheck={handleCheck}
-
                                 onSave={handleSave}
                                 onDelete={handleDelete}
                             /> :
