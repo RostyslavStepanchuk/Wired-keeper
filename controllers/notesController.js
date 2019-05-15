@@ -3,7 +3,12 @@ const Note = require('../models/Note');
 class NotesController{
 
     static index (req,res) {
-        return Note.getAll().then(result=>res.send(result))
+        return Note.getAll().then(result=>
+            result.map(note=> {
+                note.type = 'note';
+                return note
+            }))
+            .then(notes=>res.send(notes));
     }
 
     static createNote(req, res) {

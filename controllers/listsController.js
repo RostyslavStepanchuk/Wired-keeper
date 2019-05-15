@@ -3,7 +3,13 @@ const List = require('../models/List');
 class ListsController{
 
     static index (req,res) {
-            return List.getAll().then(result=>res.send(result))
+            return List.getAll()
+                .then(result=>
+                    result.map(list=> {
+                        list.type = 'list';
+                        return list
+                    }))
+                .then(lists=>res.send(lists));
     }
 
     static createList(req, res) {
