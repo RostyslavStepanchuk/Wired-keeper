@@ -17,7 +17,7 @@ class Cards extends Component {
         handleDelete: PropTypes.func.isRequired,
         handleCheck: PropTypes.func.isRequired,
         handleSave: PropTypes.func.isRequired,
-        notationTypes: PropTypes.string,
+        notationTypes: PropTypes.array.isRequired,
         handleType:PropTypes.func.isRequired
     };
 
@@ -42,7 +42,7 @@ class Cards extends Component {
 
 
     render() {
-        const {notations,notationTypes, handleDelete, handleCheck, handleSave} = this.props;
+        const {notations,notationTypes, handleType, handleDelete, handleCheck, handleSave} = this.props;
         if (!notations.length) return <p>Nothing here yet. Create some note or to-do-list</p>;
         return (
             <div className='body row p-2'>

@@ -77,11 +77,11 @@ class App extends Component {
         }
     };
 
-    handleSave = async (cardId) => {
+    handleSave = async (notation) => {
         const originalNotations = JSON.parse(JSON.stringify(this.state.notations));
 
         const notations = JSON.parse(JSON.stringify(this.state.notations));
-        const CardIndex = originalNotations.map(notation=>notation.id).indexOf(cardId);
+        const CardIndex = originalNotations.map(notation=>notation.id).indexOf(notation);
 
         try {
             if (notation.type === 'list') {
