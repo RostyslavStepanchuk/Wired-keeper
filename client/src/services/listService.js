@@ -17,8 +17,9 @@ export function saveList(list) {
     return http.post(`${apiEndpoint}/create`, list);
 }
 
-export function updateList(listId) {
-    return http.put(`${apiEndpoint}/${listId}/update`)
+export function updateList(list) {
+    const listId = list.id;
+    return http.put(`${apiEndpoint}/${listId}/update`,list)
 }
 
 export function deleteList(listId) {

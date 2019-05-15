@@ -7,7 +7,7 @@ import FormList from "./components/FormList";
 import Footer from './components/Footer'
 import {getNotations} from "./services/notations";
 import {deleteList, updateList} from "./services/listService";
-import {deleteNote} from "./services/noteService";
+import {deleteNote, updateNote} from "./services/noteService";
 
 
 class App extends Component {
@@ -23,34 +23,51 @@ class App extends Component {
     handleDelete = async card => {
         const originalNotations = [...this.state.notations];
         const notations = originalNotations.filter(notation=> notation.id !== card.id);
-        console.log(notations);
         this.setState({notations});
 
         try {
             if (card.type === 'list') await deleteList(card.id);
             else if (card.type === 'note') await deleteNote(card.id);
-            else console.log('Invalid card type')
+            else throw new Error('Invalid card type')
         } catch (ex) {
             if (ex.response && ex.response.status === 404) console.log("x");
             alert("This notation has already been deleted.");
-            this.setState({cardNotes: originalNotations});
+            this.setState({notations: originalNotations});
         }
     };
 
-    handleCheck = (cardList, ItemIndex) => {
-        const originalNotations = [...this.state.notations];
+    handleCheck = async (cardId, ItemIndex) => {
+        const originalNotations = JSON.parse(JSON.stringify(this.state.notations));
 
-        const cardLists = [...this.state.cardLists];
-        const index = cardLists.indexOf(cardList);
-        cardLists[index] = {...cardLists[index]};
-        cardLists[index].listItems[ItemIndex].checked = !cardLists[index].listItems[ItemIndex].checked;
+        const notations = JSON.parse(JSON.stringify(this.state.notations));
+        const CardIndex = originalNotations.map(notation=>notation.id).indexOf(cardId);
+        const updatedCard = notations[CardIndex];
+        updatedCard.listItems[ItemIndex].checked = !updatedCard.listItems[ItemIndex].checked;
+
         try {
-            updateList(cardList.id)
+            await updateList(updatedCard);
+            this.setState({notations});
         } catch (ex) {
-            alert('trevoga');
-            this.setState({cardLists: originalLists})
+            alert ('Error during list update');
+            this.setState({notations:originalNotations})
         }
-        this.setState({cardLists});
+    };
+
+    handleSave = async (cardId) => {
+        const originalNotations = JSON.parse(JSON.stringify(this.state.notations));
+
+        const notations = JSON.parse(JSON.stringify(this.state.notations));
+        const CardIndex = originalNotations.map(notation=>notation.id).indexOf(cardId);
+
+        try {
+            if (notation.type === 'list') {
+                await updateList(notation)
+            } else if (notation.type === 'note') {
+                await updateNote(notation)
+            } else throw new Error('Invalid card type')
+        } catch (ex) {
+            alert ('Error during list update');
+        }
     };
 
 
@@ -62,8 +79,19 @@ class App extends Component {
                 <div className='container'>
                     <Route path='/createNote' component={FormNote}/>
                     <Route path='/createList' component={FormList}/>
-                    <Route path='/' render={(props)=><Cards {...props} handleDelete={this.handleDelete} notations={notations}/>}/>
-                    {/*<Cards className='row'/>*/}
+                    <Route
+                        path='/'
+                        render={
+                            (props)=> (
+                                <Cards
+                                    {...props}
+                                    notations={notations}
+                                    handleDelete={this.handleDelete}
+                                    handleCheck={this.handleCheck}
+                                    handleSave = {this.handleSave}
+                                    />
+                                    )}
+                    />
                     {/*<Footer className='row'/>*/}
                 </div>
 
