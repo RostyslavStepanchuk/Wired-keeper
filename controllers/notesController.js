@@ -1,6 +1,11 @@
 const Note = require('../models/Note');
 
 class NotesController{
+
+    static index (req,res) {
+        return Note.getAll().then(result=>res.send(result))
+    }
+
     static createNote(req, res) {
         try {
             if (req.body) {

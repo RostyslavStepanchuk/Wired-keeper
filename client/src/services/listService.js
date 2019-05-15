@@ -6,7 +6,7 @@ const apiEndpoint = apiUrl + "/lists";
 const listUrl = (id) => `${apiEndpoint}/${id}`;
 
 export function getLists() {
-    return http.get(apiEndpoint);
+    return http.get(apiEndpoint).then(response=>response.data);
 }
 
 export function getList(listId) {
@@ -18,10 +18,10 @@ export function saveList(list) {
 }
 
 export function updateList(listId) {
-    return http.put(`${apiEndpoint}/update/${listId}`)
+    return http.put(`${apiEndpoint}/${listId}/update`)
 }
 
 export function deleteList(listId) {
-    return http.delete(`${apiEndpoint}/delete/${listId}`)
+    return http.delete(`${apiEndpoint}/${listId}/delete`)
 }
 

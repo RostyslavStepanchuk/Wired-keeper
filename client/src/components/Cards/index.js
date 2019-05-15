@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import CardList from '../CardList';
 import CardNote from '../CardNote';
-import CustomCard from '../customCard'
-import { deleteNote, saveNote} from '../../services/noteService'; // add getLists and getNotes from services
-import { deleteList, saveList, updateList} from "../../services/listService";
-import {getLists} from '../../fakeData/fakeLists'
-import {getNotes} from '../../fakeData/fakeNotes'
+import { deleteNote, getNotes,updateNote} from '../../services/noteService'; // add getLists and getNotes from services
+import { deleteList, getLists, updateList} from "../../services/listService";
+// import {getLists} from '../../fakeData/fakeLists'
+// import {getNotes} from '../../fakeData/fakeNotes'
 
 import './Cards.scss'
 
@@ -22,6 +21,8 @@ class Cards extends Component {
 
         this.setState({cardLists});
         this.setState({cardNotes});
+//dev
+        // fetch('http://localhost:8000').then((resp)=>resp.json()).then(data=>console.log(data));
     }
 
     handleDelete = async notation => {
@@ -72,9 +73,9 @@ class Cards extends Component {
     handleSave = async(notation) => {
         console.log('corrected', notation);
         if (notation.type === 'list') {
-           await saveList(notation)
+           await updateList(notation.id)
         } else {
-            await saveNote(notation)
+            await updateNote(notation.id)
         }
     };
     handleChange = (notation) => {
