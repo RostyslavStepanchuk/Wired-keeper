@@ -2,28 +2,10 @@ const express = require('express');
 const router = express.Router();
 const listsController = require('../controllers/listsController');
 
-// TODO remove fakeRequest, make POST instead of GET
-router.get('/create', function(req, res, next) {
-    const fakeRequest = {body:
-            {
-                title: 'React',
-                listItems: [{
-                    checked: true,
-                    task: 'be react ninja asap'
-                },
-                    {
-                        checked: true,
-                        task: 'finish the course'
-                    },
-                    {
-                        checked: false,
-                        task: 'find a job'
-                    }
-                ]
-            }
-    };
-    listsController.createList(fakeRequest, res);
-});
+router.get('/', listsController.index);
+
+
+router.post('/create', listsController.createList);
 
 // TODO remove fakeRequest, make PUT instead of GET
 router.get('/:id/update', function(req, res, next) {

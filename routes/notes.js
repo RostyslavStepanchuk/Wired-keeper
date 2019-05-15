@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const notesController = require('../controllers/notesController');
 
+router.get('/', notesController.index);
+
 // TODO remove fakeRequest, make POST instead of GET
 router.get('/create', function(req, res, next) {
     const fakeRequest = {body:{title:'FirstNote',noteText:'UPDATED Note text'}};

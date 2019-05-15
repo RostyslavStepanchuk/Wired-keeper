@@ -6,7 +6,7 @@ const apiEndpoint = apiUrl + "/notes";
 const noteUrl = (id) => `${apiEndpoint}/${id}`;
 
 export function getNotes() {
-    return http.get(apiEndpoint);
+    return http.get(apiEndpoint).then(response=>response.data);
 }
 
 export function getNote(noteId) {
@@ -18,10 +18,10 @@ export function saveNote(note) {
 }
 
 export function updateNote(noteId) {
-    return http.put(`${apiEndpoint}/update/${noteId}`)
+    return http.put(`${apiEndpoint}/${noteId}/update`)
 }
 
 export function deleteNote(noteId) {
-    return http.delete(`${apiEndpoint}/delete/${noteId}`)
+    return http.delete(`${apiEndpoint}/${noteId}/delete`)
 }
 

@@ -1,8 +1,14 @@
 const List = require('../models/List');
 
 class ListsController{
+
+    static index (req,res) {
+            return List.getAll().then(result=>res.send(result))
+    }
+
     static createList(req, res) {
         try {
+            console.log(req.body);
             if (req.body) {
                 const list = new List(req.body.title, req.body.listItems);
                     list.send()

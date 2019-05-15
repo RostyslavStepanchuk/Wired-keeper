@@ -31,19 +31,24 @@ class FormList extends Card {
         if (stateKey === 'title') {
             const state = {...this.state};
             state[stateKey] = evt.target.value;
-            this.setState({state});
+            this.setState({...state});
         }
         if (stateKey === 'listItems') {
             const state = {...this.state};
             state[stateKey][index]['task'] = evt.target.value;
-            this.setState({state});
+            this.setState({...state});
         }
         // this.setState({state: newState})
     };
 
     doSubmit = async () => {
-        // let resp = await saveList(this.state);
-        // console.log(resp);
+        let resp = await saveList(this.state);
+        const body = JSON.stringify(this.state);
+        // console.log('SENDING:');
+        // console.log(body);
+        // fetch('http://localhost:8000/lists/create',{method:'POST', headers:{'Content-Type': 'application/json'}, body}).then((resp)=>resp.json()).then(data=>console.log(data))
+
+        console.log(resp.data);
         this.props.history.replace('/')
     };
 
