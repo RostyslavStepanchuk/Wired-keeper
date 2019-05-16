@@ -44,14 +44,14 @@ class App extends Component {
         return filtered; // then you should map 'filtered' inside render -> cards = getPagedData()
     };
 
-    handleDelete = async card => {
+    handleDelete = async (id, type) => {
         const originalNotations = [...this.state.notations];
-        const notations = originalNotations.filter(notation=> notation.id !== card.id);
+        const notations = originalNotations.filter(notation=> notation.id !== id);
         this.setState({notations});
 
         try {
-            if (card.type === 'list') await deleteList(card.id);
-            else if (card.type === 'note') await deleteNote(card.id);
+            if (type === 'list') await deleteList(id);
+            else if (type === 'note') await deleteNote(id);
             else throw new Error('Invalid card type')
         } catch (ex) {
             if (ex.response && ex.response.status === 404) console.log("x");
@@ -60,28 +60,28 @@ class App extends Component {
         }
     };
 
-    handleCheck = async (cardId, ItemIndex) => {
-        const originalNotations = JSON.parse(JSON.stringify(this.state.notations));
-
-        const notations = JSON.parse(JSON.stringify(this.state.notations));
-        const CardIndex = originalNotations.map(notation=>notation.id).indexOf(cardId);
-        const updatedCard = notations[CardIndex];
-        updatedCard.listItems[ItemIndex].checked = !updatedCard.listItems[ItemIndex].checked;
-
-        try {
-            await updateList(updatedCard);
-            this.setState({notations});
-        } catch (ex) {
-            alert ('Error during list update');
-            this.setState({notations:originalNotations})
-        }
-    };
+    // handleCheck = async (cardId, ItemIndex) => {
+    //     const originalNotations = JSON.parse(JSON.stringify(this.state.notations));
+    //
+    //     const notations = JSON.parse(JSON.stringify(this.state.notations));
+    //     const CardIndex = originalNotations.map(notation=>notation.id).indexOf(cardId);
+    //     const updatedCard = notations[CardIndex];
+    //     updatedCard.listItems[ItemIndex].checked = !updatedCard.listItems[ItemIndex].checked;
+    //
+    //     try {
+    //         await updateList(updatedCard);
+    //         this.setState({notations});
+    //     } catch (ex) {
+    //         alert ('Error during list update');
+    //         this.setState({notations:originalNotations})
+    //     }
+    // };
 
     handleSave = async (notation) => {
         const originalNotations = JSON.parse(JSON.stringify(this.state.notations));
 
-        const notations = JSON.parse(JSON.stringify(this.state.notations));
-        const CardIndex = originalNotations.map(notation=>notation.id).indexOf(notation);
+        // const notations = JSON.parse(JSON.stringify(this.state.notations));
+        // const CardIndex = originalNotations.map(notation=>notation.id).indexOf(notation);
 
         try {
             if (notation.type === 'list') {
@@ -94,14 +94,13 @@ class App extends Component {
         }
     };
 
-
     render() {
         const { searchQuery, notationTypes} = this.state;
         const notations  = this.getPagedData();
 
         return (
             <React.Fragment>
-                <Header notations={notations}/>
+                <Header notations={notations} value={searchQuery} onSearch={this.handleSearch}/>
                 <div className='container'>
                     <Route path='/createNote' component={FormNote}/>
                     <Route path='/createList' component={FormList}/>
@@ -115,7 +114,7 @@ class App extends Component {
                                     notationTypes={notationTypes}
                                     handleType={this.handleSelectedType}
                                     handleDelete={this.handleDelete}
-                                    handleCheck={this.handleCheck}
+                                    // handleCheck={this.handleCheck}
                                     handleSave = {this.handleSave}
                                     />
                                     )}
