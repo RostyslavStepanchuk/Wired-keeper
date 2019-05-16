@@ -6,8 +6,8 @@ import FormNote from './components/FormNote'
 import FormList from "./components/FormList";
 import Footer from './components/Footer'
 import {getNotations} from "./services/notations";
-import {deleteList, updateList} from "./services/listService";
-import {deleteNote, updateNote} from "./services/noteService";
+import {deleteList,saveList, updateList} from "./services/listService";
+import {deleteNote,saveNote, updateNote} from "./services/noteService";
 
 
 class App extends Component {
@@ -37,10 +37,14 @@ class App extends Component {
         let newNotes =   [...this.state.notations];
         const {searchQuery, selectedType} = this.state;
         let filtered =  [...newNotes];
-        if (searchQuery)
-            filtered = newNotes.filter(notation => notation.title.toLowerCase().startsWith(searchQuery.toLowerCase()));
-        else if (selectedType !== 'All')
+        if (searchQuery !==''){
+            console.log('REACHED HERE');
+            filtered = newNotes.filter(notation => notation.title.toLowerCase().startsWith(searchQuery.toLowerCase()));}
+        else if (selectedType !== 'All') {
+            console.log('REACHED SECOND LEVEL');
             filtered = selectedType === 'lists' ? newNotes.filter(n => n.type === 'lists') : newNotes.filter(n => n.type === 'notes');
+        }
+        console.log(filtered);
         return filtered; // then you should map 'filtered' inside render -> cards = getPagedData()
     };
 
@@ -60,29 +64,8 @@ class App extends Component {
         }
     };
 
-    // handleCheck = async (cardId, ItemIndex) => {
-    //     const originalNotations = JSON.parse(JSON.stringify(this.state.notations));
-    //
-    //     const notations = JSON.parse(JSON.stringify(this.state.notations));
-    //     const CardIndex = originalNotations.map(notation=>notation.id).indexOf(cardId);
-    //     const updatedCard = notations[CardIndex];
-    //     updatedCard.listItems[ItemIndex].checked = !updatedCard.listItems[ItemIndex].checked;
-    //
-    //     try {
-    //         await updateList(updatedCard);
-    //         this.setState({notations});
-    //     } catch (ex) {
-    //         alert ('Error during list update');
-    //         this.setState({notations:originalNotations})
-    //     }
-    // };
-
     handleSave = async (notation) => {
         const originalNotations = JSON.parse(JSON.stringify(this.state.notations));
-
-        // const notations = JSON.parse(JSON.stringify(this.state.notations));
-        // const CardIndex = originalNotations.map(notation=>notation.id).indexOf(notation);
-
         try {
             if (notation.type === 'list') {
                 await updateList(notation)
@@ -91,19 +74,45 @@ class App extends Component {
             } else throw new Error('Invalid card type')
         } catch (ex) {
             alert ('Error during list update');
+            this.setState({notations:originalNotations})
         }
     };
 
+    handleSubmit = async (notation) => {
+        let newNotation;
+        if (notation.type === 'note') newNotation = await saveNote(notation).then(resp=>resp.data);
+        else if (notation.type === 'list') newNotation = await saveList(notation).then(resp=>resp.data);
+        else throw new Error ('Invalid card type');
+        const notations = [...this.state.notations];
+        notations.push(newNotation);
+        console.log(newNotation);
+        this.setState({notations})
+    };
+
     render() {
-        const { searchQuery, notationTypes} = this.state;
+        const { searchQuery, notationTypes, selectedType} = this.state;
         const notations  = this.getPagedData();
 
+        console.log(selectedType);
         return (
             <React.Fragment>
-                <Header notations={notations} value={searchQuery} onSearch={this.handleSearch}/>
+                <Header
+                    notations={notations}
+                    value={searchQuery}
+                    onSearch={this.handleSearch}
+                    notationTypes={notationTypes}
+                    handleType={this.handleSelectedType}
+
+                />
                 <div className='container'>
-                    <Route path='/createNote' component={FormNote}/>
-                    <Route path='/createList' component={FormList}/>
+                    <Route
+                        path='/createNote'
+                        render={(props)=><FormNote {...props} onSubmit={this.handleSubmit}/>}
+                    />
+                    <Route
+                        path='/createList'
+                        render={(props)=><FormList {...props} onSubmit={this.handleSubmit}/>}
+                    />
                     <Route
                         path='/'
                         render={
@@ -111,10 +120,7 @@ class App extends Component {
                                 <Cards
                                     {...props}
                                     notations={notations}
-                                    notationTypes={notationTypes}
-                                    handleType={this.handleSelectedType}
                                     handleDelete={this.handleDelete}
-                                    // handleCheck={this.handleCheck}
                                     handleSave = {this.handleSave}
                                     />
                                     )}

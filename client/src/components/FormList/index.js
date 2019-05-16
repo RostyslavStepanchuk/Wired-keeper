@@ -1,23 +1,16 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Button from '../Button'
-// import {WiredCard, WiredCheckbox} from 'wired-elements';
 import ContentEditable from "react-contenteditable";
 import {saveList} from '../../services/listService'
 import Card from "../common/card";
+import PropTypes from "prop-types";
 
 
 class FormList extends Card {
-
-    // state = {
-    //     card: {
-    //         title: '',
-    //         listItems: [{
-    //             checked: false,
-    //             task: ''
-    //         }],
-    //     }
-    //
-    // };
+    static propTypes = {
+        onSubmit: PropTypes.func.isRequired,
+        history: PropTypes.object.isRequired
+    };
     state = {
         title: '',
         listItems: [{
@@ -29,9 +22,7 @@ class FormList extends Card {
     handleChange = (evt, stateKey, index) => {
 
         if (stateKey === 'title') {
-            const state = {...this.state};
-            state[stateKey] = evt.target.value;
-            this.setState({...state});
+            this.setState({title:evt.target.value});
         }
         if (stateKey === 'listItems') {
             const state = {...this.state};
@@ -41,8 +32,10 @@ class FormList extends Card {
         // this.setState({state: newState})
     };
 
-    doSubmit = async () => {
-        let resp = await saveList(this.state);
+    doSubmit = () => {
+        const card = {...this.state};
+        card.type = 'list';
+        this.props.onSubmit(card);
         this.props.history.replace('/')
     };
 
@@ -68,10 +61,10 @@ class FormList extends Card {
     };
 
     render() {
-        console.log('LISTFORM');
-        console.log(this.props)
         return (
-            <wired-card style={{
+            <wired-card
+                elevation={3}
+                style={{
                 width: '500px',
                 margin: 'auto',
                 display: 'flex',

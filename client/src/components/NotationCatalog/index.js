@@ -6,7 +6,7 @@ const NotationCatalog = ({notationTypes, handleType}) => {
         <wired-listbox
             onClick={() => test()}
             horizontal
-            selected="">
+            selected="All">
             {notationTypes.map(type => (
                 <wired-item
                     value={type}
