@@ -1,10 +1,12 @@
 import React,{Component} from 'react';
-import Header from './components/Header'
-import {Route, Switch} from 'react-router-dom'
+import WiredElements from 'wired-elements';
+import {Route} from 'react-router-dom';
+
+import Header from './components/Header';
 import Cards from './components/Cards'
 import FormNote from './components/FormNote'
 import FormList from "./components/FormList";
-import Footer from './components/Footer'
+
 import {getNotations} from "./services/notations";
 import {deleteList,saveList, updateList} from "./services/listService";
 import {deleteNote,saveNote, updateNote} from "./services/noteService";
@@ -15,11 +17,11 @@ class App extends Component {
         notations: [],
         searchQuery: '',
         notationTypes: ['All', 'notes', 'lists'],
-        selectedType: 'All'
+        selectedType: 'All',
+        openRoot:'/',
     };
 
     async componentDidMount() {
-        console.log('mounted');
         let notations = await getNotations();
         this.setState({notations})
         // fetch('http://localhost:8000').then((resp)=>resp.json()).then(data=>console.log(data));
@@ -27,24 +29,20 @@ class App extends Component {
 
     handleSearch = query => {
         this.setState({searchQuery: query, selectedType: 'All'});
-        console.log(query)
     };
     handleSelectedType = type => {
         this.setState({selectedType: type});
-        console.log('tr')
+
     };
     getPagedData =   () => {
         let newNotes =   [...this.state.notations];
         const {searchQuery, selectedType} = this.state;
         let filtered =  [...newNotes];
         if (searchQuery !==''){
-            console.log('REACHED HERE');
             filtered = newNotes.filter(notation => notation.title.toLowerCase().startsWith(searchQuery.toLowerCase()));}
         else if (selectedType !== 'All') {
-            console.log('REACHED SECOND LEVEL');
             filtered = selectedType === 'lists' ? newNotes.filter(n => n.type === 'lists') : newNotes.filter(n => n.type === 'notes');
         }
-        console.log(filtered);
         return filtered; // then you should map 'filtered' inside render -> cards = getPagedData()
     };
 
@@ -85,15 +83,18 @@ class App extends Component {
         else throw new Error ('Invalid card type');
         const notations = [...this.state.notations];
         notations.push(newNotation);
-        console.log(newNotation);
         this.setState({notations})
     };
 
+    handleLinkClick = (linkRoot)=>{
+        if (linkRoot !==this.state.openRoot) this.setState({openRoot:linkRoot});
+        else this.setState({openRoot:'/'});
+    };
+
     render() {
-        const { searchQuery, notationTypes, selectedType} = this.state;
+        const { searchQuery, notationTypes, selectedType, openRoot} = this.state;
         const notations  = this.getPagedData();
 
-        console.log(selectedType);
         return (
             <React.Fragment>
                 <Header
@@ -102,16 +103,25 @@ class App extends Component {
                     onSearch={this.handleSearch}
                     notationTypes={notationTypes}
                     handleType={this.handleSelectedType}
-
+                    openRoot={openRoot}
+                    handleLinkClick={this.handleLinkClick}
                 />
                 <div className='container'>
                     <Route
                         path='/createNote'
-                        render={(props)=><FormNote {...props} onSubmit={this.handleSubmit}/>}
+                        render={(props)=><FormNote {...props}
+                                                   openRoot={openRoot}
+                                                   onClose={this.handleLinkClick}
+                                                   onSubmit={this.handleSubmit}
+                        />}
                     />
                     <Route
                         path='/createList'
-                        render={(props)=><FormList {...props} onSubmit={this.handleSubmit}/>}
+                        render={(props)=><FormList {...props}
+                                                   openRoot={openRoot}
+                                                   onClose={this.handleLinkClick}
+                                                   onSubmit={this.handleSubmit}
+                        />}
                     />
                     <Route
                         path='/'

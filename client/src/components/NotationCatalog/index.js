@@ -9,6 +9,7 @@ const NotationCatalog = ({notationTypes, handleType}) => {
             selected="All">
             {notationTypes.map(type => (
                 <wired-item
+                    key={type}
                     value={type}
                 >{type}
                 </wired-item>
