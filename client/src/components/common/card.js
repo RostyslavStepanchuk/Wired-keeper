@@ -5,6 +5,7 @@ class Card extends Component {
     renderTitle(title) {
         return (
             <ContentEditable
+                className='body__card-title'
                 innerRef={this.contentEditable}
                 html={title}
                 tagName='h1'
