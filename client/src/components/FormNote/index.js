@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
-import Button from '../Button';
-import {saveNote} from '../../services/noteService';
 import PropTypes from 'prop-types';
+import {NavLink} from "react-router-dom";
+
+import Button from '../Button';
 
 class FormNote extends Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
-        history: PropTypes.object.isRequired
+        history: PropTypes.object.isRequired,
+        openRoot: PropTypes.string.isRequired,
+        onClose: PropTypes.func.isRequired
     };
 
     state = {
@@ -51,6 +54,13 @@ class FormNote extends Component {
                 />
                 <br/>
                 <Button title='create' onClick={this.doSubmit}/>
+                <NavLink to='/'>
+                    <Button
+                        class='header__close-btn'
+                        title='x'
+                        onClick={() => this.props.onClose(this.props.openRoot)}
+                    />
+                </NavLink>
             </wired-card>
 
         );

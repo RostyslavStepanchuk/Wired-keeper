@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 import PropTypes from 'prop-types'
 import Button from '../Button'
 
-// import ContentEditable from "react-contenteditable";
 import Card from "../common/card";
 
 
@@ -63,7 +62,8 @@ class CardList extends Card {
                         onClick={this.handleSave}
                     />
                     <Button
-                        title='Delete'
+                        class='body__card-delete-btn'
+                        title='x'
                         onClick={() => onDelete(cardList.id, cardList.type)}
                     />
                 </wired-card>

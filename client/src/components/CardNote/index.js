@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Button from '../Button'
 import PropTypes from 'prop-types'
-// import ContentEditable from "react-contenteditable";
 
 import Card from "../common/card";
-// import {WiredCard} from 'wired-card';
+
 
 
 class CardNote extends Card {
@@ -54,7 +53,8 @@ class CardNote extends Card {
                         disabled={wasUpdated ? null :'disabled'}
                     />
                     <Button
-                        title='Delete'
+                        class='body__card-delete-btn'
+                        title='x'
                         onClick={() => onDelete(cardNote.id,cardNote.type)}
                     />
                 </wired-card>
