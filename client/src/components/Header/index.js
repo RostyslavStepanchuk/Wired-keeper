@@ -18,7 +18,8 @@ Header.propTypes = {
     handleLinkClick:PropTypes.func.isRequired
 };
 
-function Header ({value, onSearch, notationTypes, handleType, handleLinkClick, openRoot}) {
+function Header (props) {
+        const {value, onSearch, notationTypes, handleType, handleLinkClick, openRoot} = props;
         // const {openRoot} = this.state;
         return (
             <header className='row p-2 mb-3'>
@@ -29,8 +30,6 @@ function Header ({value, onSearch, notationTypes, handleType, handleLinkClick, o
                 <div className="header__buttons col-10 col-md-6 justify-content-end d-flex col-xl-3">
 
                     <NavLink
-                        style={{'color': 'grey'}}
-                        activeStyle={{'color': 'black'}}
                         to={openRoot === '/createNote' ? '/' :'/createNote'}
                         onClick={()=>handleLinkClick('/createNote')}
                     >
@@ -39,8 +38,6 @@ function Header ({value, onSearch, notationTypes, handleType, handleLinkClick, o
                         />
                     </NavLink>
                     <NavLink
-                        style={{'color': 'grey',  'marginLeft': 30}}
-                        activeStyle={{'color': 'black'}}
                         to={openRoot === '/createList' ? '/' :'/createList'}
                         onClick={()=>handleLinkClick('/createList')}
                     >
@@ -48,6 +45,12 @@ function Header ({value, onSearch, notationTypes, handleType, handleLinkClick, o
                             title={'Create List'}
                         />
                     </NavLink>
+                </div>
+                <div className='col-6 col-md-3 col-xl-2'>
+                    <NotationCatalog
+                        notationTypes={notationTypes}
+                        handleType={handleType}
+                    />
                 </div>
                 <div className="header__search col-6 col-md-9 col-xl-3">
                     <Search value={value} onSearch={onSearch}/>
