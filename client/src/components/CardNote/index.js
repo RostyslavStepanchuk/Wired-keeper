@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 import Card from "../common/card";
 
-
 class CardNote extends Card {
     static propTypes = {
         cardNote: PropTypes.object.isRequired,
@@ -52,11 +51,13 @@ class CardNote extends Card {
                         title='Save'
                         onClick={this.handleSave}
                         disabled={wasUpdated ? null : 'disabled'}
+
                     />
                     <Button
                         class='body__card-delete-btn'
                         title='x'
                         onClick={() => onDelete(cardNote.id, cardNote.type)}
+
                     />
                 </wired-card>
 
