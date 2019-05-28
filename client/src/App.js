@@ -16,8 +16,6 @@ class App extends Component {
         searchQuery: '',
         notationTypes: ['note', 'notes', 'lists'],
         selectedType: 'note',
-        openRoot: '/',
-
     };
 
     async componentDidMount() {
@@ -88,13 +86,13 @@ class App extends Component {
         this.setState({notations})
     };
 
-    handleLinkClick = (linkRoot) => {
-        if (linkRoot !== this.state.openRoot) this.setState({openRoot: linkRoot});
-        else this.setState({openRoot: '/'});
-    };
+    // handleLinkClick = (linkRoot) => {
+    //     if (linkRoot !== this.state.openRoot) this.setState({openRoot: linkRoot});
+    //     else this.setState({openRoot: '/'});
+    // };
 
     render() {
-        const {searchQuery, notationTypes, openRoot} = this.state;
+        const {searchQuery, notationTypes} = this.state;
         const notations = this.getPagedData();
 
         return (
@@ -103,15 +101,11 @@ class App extends Component {
                     notations={notations}
                     value={searchQuery}
                     onSearch={this.handleSearch}
-                    openRoot={openRoot}
-                    handleLinkClick={this.handleLinkClick}
                 />
                 <div className='container'>
                     <Route
                         path='/createNote'
                         render={(props) => <FormNote {...props}
-                                                     openRoot={openRoot}
-                                                     onClose={this.handleLinkClick}
                                                      onSubmit={this.handleSubmit}
 
                         />}
@@ -119,8 +113,6 @@ class App extends Component {
                     <Route
                         path='/createList'
                         render={(props) => <FormList {...props}
-                                                     openRoot={openRoot}
-                                                     onClose={this.handleLinkClick}
                                                      onSubmit={this.handleSubmit}
 
                         />}

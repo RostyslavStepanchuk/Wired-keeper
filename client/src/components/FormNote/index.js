@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {NavLink} from "react-router-dom";
+import {connect} from "react-redux";
 
 import Button from '../Button';
+import {goToIndex} from "../../actions/AC/headerLink";
 
 class FormNote extends Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired,
-        openRoot: PropTypes.string.isRequired,
-        onClose: PropTypes.func.isRequired
+        //store
+        goToIndex: PropTypes.func.isRequired
     };
 
     state = {
@@ -61,7 +63,7 @@ class FormNote extends Component {
                     <Button
                         class='header__close-btn'
                         title='x'
-                        onClick={() => this.props.onClose(this.props.openRoot)}
+                        onClick={this.props.goToIndex}
                     />
                 </NavLink>
             </wired-card>
@@ -70,4 +72,8 @@ class FormNote extends Component {
     }
 }
 
-export default FormNote;
+const mapDispatchToProps = dispatch => ({
+   goToIndex: ()=>dispatch(goToIndex()),
+});
+
+export default connect(null,mapDispatchToProps)(FormNote);
