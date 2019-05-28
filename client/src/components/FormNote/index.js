@@ -45,11 +45,13 @@ class FormNote extends Component {
                     flexDirection: 'column'
                 }}>
                 <wired-textarea
+                    style={{width: '80%'}}
                     placeholder='Put title'
                     onInput={(e) => this.handleInput(e, 'title')}
                     value={this.state.card.title}
                 />
                 <wired-textarea
+                    style={{width: '80%',}}
                     placeholder='Write down what you want'
                     onInput={(e) => this.handleInput(e, 'noteText')}
                     value={this.state.card.title}

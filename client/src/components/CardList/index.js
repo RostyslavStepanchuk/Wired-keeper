@@ -53,7 +53,10 @@ class CardList extends Card {
 
         return (
             <div key={cardList.id} className="body__card col-sm-6 col-lg-4">
-                <wired-card type={cardList.type} style={{width: '100%'}}>
+
+                <wired-card type={cardList.type} style={{width: '100%'}}
+                >
+
                     {this.renderTitle(title)}
                     {this.renderListItems(listItems)}
                     <Button

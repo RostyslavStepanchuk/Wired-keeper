@@ -76,6 +76,7 @@ class FormList extends Card {
                     position: 'relative'
                 }}>
                 <wired-textarea
+                    style={{width: '80%'}}
                     placeholder='Put title'
                     onInput={(e) => this.handleChange(e, 'title')}
                     value={this.state.title}

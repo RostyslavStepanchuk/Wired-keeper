@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ContentEditable from 'react-contenteditable'
+import './card.scss'
 
 class Card extends Component {
     renderTitle(title) {
@@ -19,6 +20,8 @@ class Card extends Component {
             <ContentEditable
                 innerRef={this.contentEditable}
                 html={text}
+                id='scrollbar'
+                style={{overflowY: 'scroll', minHeight:'90px', maxHeight: '120px'}}
                 tagName='p'
                 onChange={this.handleTextChange}
 
@@ -33,13 +36,13 @@ class Card extends Component {
                     <wired-checkbox
                         checked={listItem.checked ? 'checked' : null}
                         style={{whiteSpace: 'normal'}}
-                        onClick={(e)=>this.handleCheckboxTick(e,index)}
+                        onClick={(e) => this.handleCheckboxTick(e, index)}
                     />
                     <ContentEditable
                         innerRef={this.contentEditable}
                         html={listItem.task}
                         tagName='p'
-                        onChange={(e)=>this.handleTaskDescriptionChange(e,index)}
+                        onChange={(e) => this.handleTaskDescriptionChange(e, index)}
                     />
                 </div>)
             )

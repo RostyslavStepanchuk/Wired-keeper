@@ -28,6 +28,9 @@ function Header (props) {
                 <div className="header__buttons col-10 col-md-6 justify-content-end d-flex col-xl-3">
 
                     <NavLink
+                        style={{color: 'grey'}}
+                        activeStyle={{color: 'black'}}
+
                         to={openRoot === '/createNote' ? '/' :'/createNote'}
                         onClick={()=>followLink('/createNote',openRoot)}
                     >
@@ -36,6 +39,8 @@ function Header (props) {
                         />
                     </NavLink>
                     <NavLink
+                        style={{color: 'grey'}}
+                        activeStyle={{color: 'black'}}
                         to={openRoot === '/createList' ? '/' :'/createList'}
                         onClick={()=>followLink('/createList',openRoot)}
                     >
@@ -45,7 +50,6 @@ function Header (props) {
                     </NavLink>
                 </div>
                 <div className='col-6 col-md-3 col-xl-2'>
-
                 </div>
                 <div className="header__search col-6 col-md-9 col-xl-3">
                     <Search value={value} onSearch={onSearch}/>
@@ -53,14 +57,12 @@ function Header (props) {
             </header>
         );
 }
-
 const mapStateToProps = (state) => {
     return {
         openRoot: state.headerLink.openRoot
     }
 
 };
-
 const mapDispatchToProps = (dispatch) => {
   return{
       followLink: (link,currentRoot)=>dispatch(followLink(link, currentRoot)),
