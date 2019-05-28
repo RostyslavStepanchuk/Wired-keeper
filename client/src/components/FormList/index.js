@@ -25,7 +25,6 @@ class FormList extends Card {
     };
 
     handleChange = (evt, stateKey, index) => {
-
         if (stateKey === 'title') {
             this.setState({title: evt.target.value});
         }
@@ -67,9 +66,10 @@ class FormList extends Card {
     render() {
         return (
             <wired-card
+                class = 'col-md-8 col-xl-5'
                 elevation={3}
                 style={{
-                    width: '500px',
+                    // width: '500px',
                     margin: 'auto',
                     display: 'flex',
                     flexDirection: 'column',

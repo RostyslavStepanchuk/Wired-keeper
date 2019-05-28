@@ -103,6 +103,7 @@ class App extends Component {
                     onSearch={this.handleSearch}
                 />
                 <div className='container'>
+                    <div className='row'>
                     <Route
                         path='/createNote'
                         render={(props) => <FormNote {...props}
@@ -133,6 +134,7 @@ class App extends Component {
 
                     />
                     {/*<Footer className='row'/>*/}
+                    </div>
                 </div>
 
             </React.Fragment>
