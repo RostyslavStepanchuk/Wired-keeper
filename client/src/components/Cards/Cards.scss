@@ -1,19 +1,22 @@
 .body {
   &__card {
     position: relative;
-    &-title{
+
+    &-title {
       font-family: 'Amatic SC', cursive;
       font-weight: bold;
       //margin: 0 auto;
       //box-sizing: content-box;
     }
+
     &-delete-btn {
       position: absolute;
-      top:10px;
-      right:10px;
+      top: 10px;
+      right: 10px;
       //font-size: 10px;
     }
   }
+
   &__placeholder {
     height: 70vh;
     margin: auto;
@@ -23,7 +26,9 @@
     color: #5a6268;
     font-family: 'Amatic SC', cursive;
   }
+
   [contenteditable]:focus {
     outline: 0 solid transparent;
 
+  }
 }

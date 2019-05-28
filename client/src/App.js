@@ -103,36 +103,38 @@ class App extends Component {
                     onSearch={this.handleSearch}
                 />
                 <div className='container'>
-                    <Route
-                        path='/createNote'
-                        render={(props) => <FormNote {...props}
-                                                     onSubmit={this.handleSubmit}
+                    <div className='row'>
+                        <Route
+                            path='/createNote'
+                            render={(props) => <FormNote {...props}
+                                                         onSubmit={this.handleSubmit}
 
-                        />}
-                    />
-                    <Route
-                        path='/createList'
-                        render={(props) => <FormList {...props}
-                                                     onSubmit={this.handleSubmit}
+                            />}
+                        />
+                        <Route
+                            path='/createList'
+                            render={(props) => <FormList {...props}
+                                                         onSubmit={this.handleSubmit}
 
-                        />}
-                    />
-                    <Route
-                        path='/'
-                        render={
-                            (props) => (
-                                <Cards
-                                    {...props}
-                                    notationTypes={notationTypes}
-                                    handleType={this.handleSelectedType}
-                                    notations={notations}
-                                    handleDelete={this.handleDelete}
-                                    handleSave={this.handleSave}
-                                />
-                            )}
+                            />}
+                        />
+                        <Route
+                            path='/'
+                            render={
+                                (props) => (
+                                    <Cards
+                                        {...props}
+                                        notationTypes={notationTypes}
+                                        handleType={this.handleSelectedType}
+                                        notations={notations}
+                                        handleDelete={this.handleDelete}
+                                        handleSave={this.handleSave}
+                                    />
+                                )}
 
-                    />
-                    {/*<Footer className='row'/>*/}
+                        />
+                        {/*<Footer className='row'/>*/}
+                    </div>
                 </div>
 
             </React.Fragment>

@@ -37,9 +37,9 @@ class FormNote extends Component {
     render() {
         return (
             <wired-card
+                class = 'col-md-8 col-xl-5'
                 elevation={3}
                 style={{
-                    width: '500px',
                     margin: 'auto',
                     display: 'flex',
                     flexDirection: 'column'
