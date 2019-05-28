@@ -35,7 +35,8 @@ class CardNote extends Card {
             type:this.props.cardNote.type
         };
 
-        this.props.onSave(notation)
+        this.props.onSave(notation);
+        this.setState({wasUpdated:false})
     };
 
     render() {

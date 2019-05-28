@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {followLink} from "../../actions/AC/headerLink";
 
 import Button from '../Button'
 import Search from '../Search'
@@ -12,12 +14,12 @@ Header.propTypes = {
     value: PropTypes.string.isRequired,
     onSearch: PropTypes.func.isRequired,
     openRoot:PropTypes.string.isRequired,
-    handleLinkClick:PropTypes.func.isRequired
+    followLink: PropTypes.func.isRequired
 };
 
 function Header (props) {
-        const {value, onSearch, handleLinkClick, openRoot} = props;
-        return (
+        const {value, onSearch, openRoot, followLink} = props;
+    return (
             <header className='row p-2 mb-3'>
                 <div className='header__logo mb-2 col-2 col-md-6 col-xl-4 align-content-center'>
                     <img className='header__logo-img' alt='pencil-logo' src={logo}/>
@@ -27,7 +29,7 @@ function Header (props) {
 
                     <NavLink
                         to={openRoot === '/createNote' ? '/' :'/createNote'}
-                        onClick={()=>handleLinkClick('/createNote')}
+                        onClick={()=>followLink('/createNote',openRoot)}
                     >
                         <Button
                             title={'Create Note'}
@@ -35,7 +37,7 @@ function Header (props) {
                     </NavLink>
                     <NavLink
                         to={openRoot === '/createList' ? '/' :'/createList'}
-                        onClick={()=>handleLinkClick('/createList')}
+                        onClick={()=>followLink('/createList',openRoot)}
                     >
                         <Button
                             title={'Create List'}
@@ -52,5 +54,17 @@ function Header (props) {
         );
 }
 
+const mapStateToProps = (state) => {
+    return {
+        openRoot: state.headerLink.openRoot
+    }
 
-export default Header;
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+      followLink: (link,currentRoot)=>dispatch(followLink(link, currentRoot)),
+  }
+};
+
+export default connect (mapStateToProps, mapDispatchToProps)(Header);

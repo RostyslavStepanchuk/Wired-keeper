@@ -2,18 +2,19 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {NavLink} from "react-router-dom";
 import ContentEditable from "react-contenteditable";
+import {connect} from 'react-redux';
 
 import Button from '../Button'
 import Card from "../common/card";
-
+import {goToIndex} from "../../actions/AC/headerLink";
 
 
 class FormList extends Card {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired,
-        openRoot: PropTypes.string.isRequired,
-        onClose: PropTypes.func.isRequired
+        // store
+        goToIndex: PropTypes.func.isRequired
     };
     state = {
         title: '',
@@ -24,7 +25,6 @@ class FormList extends Card {
     };
 
     handleChange = (evt, stateKey, index) => {
-
         if (stateKey === 'title') {
             this.setState({title: evt.target.value});
         }
@@ -66,9 +66,10 @@ class FormList extends Card {
     render() {
         return (
             <wired-card
+                class = 'col-md-8 col-xl-5'
                 elevation={3}
                 style={{
-                    width: '500px',
+                    // width: '500px',
                     margin: 'auto',
                     display: 'flex',
                     flexDirection: 'column',
@@ -114,7 +115,7 @@ class FormList extends Card {
                 <Button
                     class='header__close-btn'
                     title='x'
-                    onClick={() => this.props.onClose(this.props.openRoot)}
+                    onClick={this.props.goToIndex}
                 />
                 </NavLink>
             </wired-card>
@@ -123,4 +124,8 @@ class FormList extends Card {
 
 }
 
-export default FormList;
+const mapDispatchToProps = (dispatch) => ({
+    goToIndex: ()=>dispatch(goToIndex()),
+});
+
+export default connect(null,mapDispatchToProps)(FormList);
