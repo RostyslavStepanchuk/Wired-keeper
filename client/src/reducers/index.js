@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux'
+import headerLink from './headerLink'
 
 const rootReducer = combineReducers({
-   //reducers
+   headerLink
 });
 
 export default rootReducer;

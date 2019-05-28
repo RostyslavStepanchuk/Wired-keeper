@@ -103,7 +103,6 @@ class App extends Component {
                     notations={notations}
                     value={searchQuery}
                     onSearch={this.handleSearch}
-                    openRoot={openRoot}
                     handleLinkClick={this.handleLinkClick}
                 />
                 <div className='container'>
