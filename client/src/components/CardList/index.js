@@ -16,7 +16,7 @@ class CardList extends Card {
     state = {
         title: this.props.cardList.title,
         listItems:this.props.cardList.listItems,
-        wasUpdated: false
+        wasUpdated: false,
     };
 
     handleTitleChange = e => {
@@ -26,7 +26,7 @@ class CardList extends Card {
     handleTaskDescriptionChange = (e, taskIndex) => {
         const listItems = JSON.parse(JSON.stringify(this.state.listItems));
         listItems[taskIndex].task = e.target.value;
-        this.setState({listItems, wasUpdated:true})
+        this.setState({listItems, wasUpdated:true, lastUpdated: taskIndex})
     };
 
     handleCheckboxTick = (e, taskIndex) => {
@@ -40,7 +40,7 @@ class CardList extends Card {
             id: this.props.cardList.id,
             title:this.state.title,
             listItems:this.state.listItems,
-            type:this.props.cardList.type
+            type:this.props.cardList.type,
         };
 
       this.props.onSave(notation)

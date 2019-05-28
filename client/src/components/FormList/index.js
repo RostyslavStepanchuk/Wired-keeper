@@ -106,7 +106,11 @@ class FormList extends Card {
                 </div>))}
                 <br/>
                 <Button title='create' onClick={this.doSubmit}/>
-                <NavLink to='/'>
+                <NavLink
+                    style={{'color': 'grey'}}
+                    activeStyle={{'color': 'black'}}
+                    to='/'>
+
                 <Button
                     class='header__close-btn'
                     title='x'
