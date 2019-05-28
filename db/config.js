@@ -9,8 +9,8 @@ module.exports = {
         auth: {
             keepAlive: 8000,
             reconnectTries: 5,
-            user:'Slava',
-            password: '123'
+            user:login,
+            password: password
         }
     }
 };
