@@ -1,7 +1,7 @@
 const {url, options, dbName} = require('./config'),
     {MongoClient, ObjectId} = require('mongodb');
 
-connect = () => MongoClient.connect(url, options)
+connect = () => MongoClient.connect(process.env.MONGODB_URI || url, options)
     .then(client => {
         return client
     })
