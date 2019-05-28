@@ -20,6 +20,7 @@ Header.propTypes = {
 
 function Header (props) {
         const {value, onSearch, notationTypes, handleType, handleLinkClick, openRoot} = props;
+        // const {openRoot} = this.state;
         return (
             <header className='row p-2 mb-3'>
                 <div className='header__logo mb-2 col-2 col-md-6 col-xl-4 align-content-center'>

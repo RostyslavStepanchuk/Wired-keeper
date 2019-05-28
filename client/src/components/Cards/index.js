@@ -5,6 +5,7 @@ import CardList from '../CardList';
 import CardNote from '../CardNote';
 
 import './Cards.scss'
+import NotationCatalog from "../NotationCatalog";
 
 class Cards extends Component {
     static propTypes = {
@@ -18,10 +19,14 @@ class Cards extends Component {
     };
 
     render() {
-        const {notations, handleDelete, handleSave} = this.props;
+        const {notations, handleDelete, handleSave, notationTypes, handleType} = this.props;
         if (!notations.length) return <p className='body__placeholder'>Nothing here yet</p>;
         return (
             <div className='body row p-2'>
+                <NotationCatalog
+                    notationTypes={notationTypes}
+                    handleType={handleType}
+                />
 
                 {notations.map(notation => (
                         notation.type === 'list' ?
