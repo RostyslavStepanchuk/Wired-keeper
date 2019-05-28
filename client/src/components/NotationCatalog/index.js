@@ -1,20 +1,18 @@
 import React from 'react';
 
 const NotationCatalog = ({notationTypes, handleType}) => {
-    const test = () => console.log('test');
     return (
-        <wired-listbox
-            onClick={() => test()}
-            horizontal
-            selected="All">
+            <div className="col-12 text-center my-4">
             {notationTypes.map(type => (
-                <wired-item
+                <wired-icon-button
+                    style={{'--wired-icon-size' : '35px', 'marginLeft': '20px'}}
+                    onClick={()=> handleType(type)}
                     key={type}
-                    value={type}
-                >{type}
-                </wired-item>
+                >
+                    {type}
+                </wired-icon-button>
             ))}
-        </wired-listbox>
+            </div>
     );
 };
 
