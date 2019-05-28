@@ -1,7 +1,6 @@
 import React from 'react';
 
 const NotationCatalog = ({notationTypes, handleType}) => {
-    const log = () => console.log('sss')
     return (
             <div className="col-12 text-center my-4">
             {notationTypes.map(type => (

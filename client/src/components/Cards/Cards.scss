@@ -23,5 +23,7 @@
     color: #5a6268;
     font-family: 'Amatic SC', cursive;
   }
-
+  [contenteditable]:focus {
+    outline: 0 solid transparent;
+  }
 }
