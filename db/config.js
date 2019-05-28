@@ -1,5 +1,5 @@
 const login = process.env.mongoLogin || 'Slava';
-const password = process.env.mongoPasswor || '123';
+const password = process.env.mongoPassword || '123';
 module.exports = {
     url: "mongodb+srv://testclusterslava-gz8as.mongodb.net/test",
         dbName: "Wired-keeper",
