@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
+
 const indexRouter = require('./routes/index');
 const notesRouter = require('./routes/notes');
 const listsRouter = require('./routes/lists');
@@ -22,6 +23,8 @@ app.use((req,res,next)=>{
     res.setHeader("Access-Control-Allow-Origin",'http://localhost:3000');
     next();
 });
+app.use(express.static(path.join(__dirname, "client", "build")));
+
 app.use('/', indexRouter);
 app.use('/notes', notesRouter);
 app.use('/lists', listsRouter);
