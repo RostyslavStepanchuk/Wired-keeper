@@ -19,10 +19,10 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.options('*',cors());
 
-app.use((req,res,next)=>{
-    res.setHeader("Access-Control-Allow-Origin",'http://localhost:3000');
-    next();
-});
+// app.use((req,res,next)=>{
+//     res.setHeader("Access-Control-Allow-Origin",'http://localhost:3000');
+//     next();
+// });
 app.use(express.static(path.join(__dirname, "client", "build")));
 
 app.use('/', indexRouter);
