@@ -42,8 +42,8 @@ class CardNote extends Card {
 
         return (
             <div key={cardNote.id} className="body__card col-sm-6 col-lg-4">
-                <wired-card type={cardNote.type} style={{minWidth: '220px'}}
-                            style={{minHeight: '245px'}}
+                <wired-card type={cardNote.type}
+                            style={{minWidth: '220px',minHeight: '245px',width:'100%'}}
                 >
                     {this.renderTitle(title)}
                     {this.renderParagraph(noteText)}
