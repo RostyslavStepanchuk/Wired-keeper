@@ -10,8 +10,7 @@ class FormNote extends Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired,
-        openRoot: PropTypes.string.isRequired,
-        onClose: PropTypes.func.isRequired,
+        //store
         goToIndex: PropTypes.func.isRequired
     };
 

@@ -14,13 +14,11 @@ Header.propTypes = {
     value: PropTypes.string.isRequired,
     onSearch: PropTypes.func.isRequired,
     openRoot:PropTypes.string.isRequired,
-    handleLinkClick:PropTypes.func.isRequired,
     followLink: PropTypes.func.isRequired
 };
 
 function Header (props) {
-        const {value, onSearch, handleLinkClick, openRoot, followLink} = props;
-    console.log(props.openRoot);
+        const {value, onSearch, openRoot, followLink} = props;
     return (
             <header className='row p-2 mb-3'>
                 <div className='header__logo mb-2 col-2 col-md-6 col-xl-4 align-content-center'>
