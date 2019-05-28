@@ -12,6 +12,8 @@ class Cards extends Component {
         notations: PropTypes.array.isRequired,
         handleDelete: PropTypes.func.isRequired,
         handleSave: PropTypes.func.isRequired,
+        notationTypes: PropTypes.array.isRequired,
+        handleType: PropTypes.func.isRequired
     };
 
     state = {
