@@ -43,7 +43,8 @@ class CardList extends Card {
             type:this.props.cardList.type,
         };
 
-      this.props.onSave(notation)
+      this.props.onSave(notation);
+      this.setState({wasUpdated:false})
     };
 
 

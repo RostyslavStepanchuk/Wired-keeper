@@ -25,7 +25,6 @@ class FormList extends Card {
     };
 
     handleChange = (evt, stateKey, index) => {
-
         if (stateKey === 'title') {
             this.setState({title: evt.target.value});
         }

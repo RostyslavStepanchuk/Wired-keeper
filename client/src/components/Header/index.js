@@ -62,7 +62,7 @@ const mapStateToProps = (state) => {
         openRoot: state.headerLink.openRoot
     }
 
-};
+
 const mapDispatchToProps = (dispatch) => {
   return{
       followLink: (link,currentRoot)=>dispatch(followLink(link, currentRoot)),
