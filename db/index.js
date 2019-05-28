@@ -1,5 +1,7 @@
-const {url, options, dbName} = require('./config'),
+const {url, options} = require('./config'),
     {MongoClient, ObjectId} = require('mongodb');
+
+const dbName = 'mongolab-tetrahedral-70331';
 
 connect = () => MongoClient.connect(process.env.MONGODB_URI || url, options)
     .then(client => {
