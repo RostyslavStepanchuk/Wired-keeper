@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 import Button from '../Button'
 import Search from '../Search'
@@ -6,32 +6,56 @@ import logo from "./hand-drawn-pencil-icon.png";
 
 import './header.scss'
 import {NavLink} from "react-router-dom";
+import NotationCatalog from "../NotationCatalog";
+import PropTypes from "prop-types";
 
-function Header({value, onSearch}) {
-    return (
-        <header className='row p-2'>
-            <div className='header__logo col-2 col-md-4 align-content-center'>
-                <img className='header__logo-img' alt='pencil-logo' src={logo}/>
-                <span className='header__logo-txt d-none d-md-inline-block'>WIRED-KEEPER</span>
-            </div>
-            <div className="header__buttons col-10 col-md-5">
+Header.propTypes = {
+    value: PropTypes.string.isRequired,
+    onSearch: PropTypes.func.isRequired,
+    notationTypes: PropTypes.array.isRequired,
+    handleType: PropTypes.func.isRequired,
+    openRoot:PropTypes.string.isRequired,
+    handleLinkClick:PropTypes.func.isRequired
+};
 
-                <NavLink to='/createNote'>
-                    <Button
-                        title={'Create Note'}
-                    />
-                </NavLink>
-                <NavLink to='/createList'>
-                    <Button
-                        title={'Create List'}
-                    />
-                </NavLink>
-            </div>
-            <div className="header__search col-12 col-md-3">
-                <Search value={value} onSearch={onSearch}/>
-            </div>
-        </header>
-    );
+function Header ({value, onSearch, notationTypes, handleType, handleLinkClick, openRoot}) {
+
+        // const {openRoot} = this.state;
+        return (
+            <header className='row p-2 mb-3'>
+                <div className='header__logo mb-2 col-2 col-md-6 col-xl-4 align-content-center'>
+                    <img className='header__logo-img' alt='pencil-logo' src={logo}/>
+                    <span className='header__logo-txt d-none d-md-inline-block'>WIRED-KEEPER</span>
+                </div>
+                <div className="header__buttons col-10 col-md-6 justify-content-end d-flex col-xl-3">
+
+                    <NavLink
+                        style={{'color': 'grey'}}
+                        activeStyle={{'color': 'black'}}
+                        to={openRoot === '/createNote' ? '/' :'/createNote'}
+                        onClick={()=>handleLinkClick('/createNote')}
+                    >
+                        <Button
+                            title={'Create Note'}
+                        />
+                    </NavLink>
+                    <NavLink
+                        style={{'color': 'grey',  'marginLeft': 30}}
+                        activeStyle={{'color': 'black'}}
+                        to={openRoot === '/createList' ? '/' :'/createList'}
+                        onClick={()=>handleLinkClick('/createList')}
+                    >
+                        <Button
+                            title={'Create List'}
+                        />
+                    </NavLink>
+                </div>
+                <div className="header__search col-6 col-md-9 col-xl-3">
+                    <Search value={value} onSearch={onSearch}/>
+                </div>
+            </header>
+        );
 }
+
 
 export default Header;

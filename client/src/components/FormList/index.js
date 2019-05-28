@@ -1,23 +1,20 @@
-import React, {Component} from 'react';
-import Button from '../Button'
-// import {WiredCard, WiredCheckbox} from 'wired-elements';
+import React from 'react';
+import PropTypes from "prop-types";
+import {NavLink} from "react-router-dom";
 import ContentEditable from "react-contenteditable";
-import {saveList} from '../../services/listService'
+
+import Button from '../Button'
 import Card from "../common/card";
 
 
-class FormList extends Card {
 
-    // state = {
-    //     card: {
-    //         title: '',
-    //         listItems: [{
-    //             checked: false,
-    //             task: ''
-    //         }],
-    //     }
-    //
-    // };
+class FormList extends Card {
+    static propTypes = {
+        onSubmit: PropTypes.func.isRequired,
+        history: PropTypes.object.isRequired,
+        openRoot: PropTypes.string.isRequired,
+        onClose: PropTypes.func.isRequired
+    };
     state = {
         title: '',
         listItems: [{
@@ -29,20 +26,19 @@ class FormList extends Card {
     handleChange = (evt, stateKey, index) => {
 
         if (stateKey === 'title') {
-            const state = {...this.state};
-            state[stateKey] = evt.target.value;
-            this.setState({...state});
+            this.setState({title: evt.target.value});
         }
         if (stateKey === 'listItems') {
             const state = {...this.state};
             state[stateKey][index]['task'] = evt.target.value;
             this.setState({...state});
         }
-        // this.setState({state: newState})
     };
 
-    doSubmit = async () => {
-        let resp = await saveList(this.state);
+    doSubmit = () => {
+        const card = {...this.state};
+        card.type = 'list';
+        this.props.onSubmit(card);
         this.props.history.replace('/')
     };
 
@@ -68,24 +64,25 @@ class FormList extends Card {
     };
 
     render() {
-        console.log('LISTFORM');
-        console.log(this.props)
         return (
-            <wired-card style={{
-                width: '500px',
-                margin: 'auto',
-                display: 'flex',
-                flexDirection: 'column'
-            }}>
+            <wired-card
+                elevation={3}
+                style={{
+                    width: '500px',
+                    margin: 'auto',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    position: 'relative'
+                }}>
                 <wired-textarea
                     placeholder='Put title'
                     onInput={(e) => this.handleChange(e, 'title')}
                     value={this.state.title}
                 />
-                {this.state.listItems.map((listItem, index) => (<div className='d-flex'>
+                {this.state.listItems.map((listItem, index) => (
+                    <div key={`${listItem.task}`} className='d-flex'>
                     <wired-checkbox
                         checked={listItem.checked ? 'checked' : null}
-                        key={index}
                         style={{whiteSpace: 'normal'}}
                     />
                     <ContentEditable
@@ -109,6 +106,16 @@ class FormList extends Card {
                 </div>))}
                 <br/>
                 <Button title='create' onClick={this.doSubmit}/>
+                <NavLink
+                    style={{'color': 'grey'}}
+                    activeStyle={{'color': 'black'}}
+                    to='/'>
+                <Button
+                    class='header__close-btn'
+                    title='x'
+                    onClick={() => this.props.onClose(this.props.openRoot)}
+                />
+                </NavLink>
             </wired-card>
         );
     }
