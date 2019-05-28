@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import WiredElements from 'wired-elements';
 import {Route} from 'react-router-dom';
-
 import Header from './components/Header';
 import Cards from './components/Cards'
 import FormNote from './components/FormNote'
 import FormList from "./components/FormList";
-
 import {getNotations} from "./services/notations";
 import {deleteList, saveList, updateList} from "./services/listService";
 import {deleteNote, saveNote, updateNote} from "./services/noteService";
@@ -19,6 +17,7 @@ class App extends Component {
         notationTypes: ['note', 'notes', 'lists'],
         selectedType: 'note',
         openRoot: '/',
+
     };
 
     async componentDidMount() {
@@ -43,6 +42,7 @@ class App extends Component {
             filtered = newNotes.filter(notation => notation.title.toLowerCase().startsWith(searchQuery.toLowerCase()));
         } else if (selectedType !== 'note') {
             filtered = selectedType === 'lists' ? newNotes.filter(n => n.type === 'list') : newNotes.filter(n => n.type === 'note');
+
         }
         return filtered; // then you should map 'filtered' inside render -> cards = getPagedData()
     };
@@ -82,6 +82,7 @@ class App extends Component {
         if (notation.type === 'note') newNotation = await saveNote(notation).then(resp => resp.data);
         else if (notation.type === 'list') newNotation = await saveList(notation).then(resp => resp.data);
         else throw new Error('Invalid card type');
+
         const notations = [...this.state.notations];
         notations.push(newNotation);
         this.setState({notations})
@@ -95,6 +96,7 @@ class App extends Component {
     render() {
         const {searchQuery, notationTypes, openRoot} = this.state;
         const notations = this.getPagedData();
+
         return (
             <React.Fragment>
                 <Header
@@ -111,6 +113,7 @@ class App extends Component {
                                                      openRoot={openRoot}
                                                      onClose={this.handleLinkClick}
                                                      onSubmit={this.handleSubmit}
+
                         />}
                     />
                     <Route
@@ -119,6 +122,7 @@ class App extends Component {
                                                      openRoot={openRoot}
                                                      onClose={this.handleLinkClick}
                                                      onSubmit={this.handleSubmit}
+
                         />}
                     />
                     <Route
@@ -134,6 +138,7 @@ class App extends Component {
                                     handleSave={this.handleSave}
                                 />
                             )}
+
                     />
                     {/*<Footer className='row'/>*/}
                 </div>

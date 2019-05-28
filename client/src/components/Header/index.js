@@ -19,7 +19,6 @@ Header.propTypes = {
 };
 
 function Header ({value, onSearch, notationTypes, handleType, handleLinkClick, openRoot}) {
-
         // const {openRoot} = this.state;
         return (
             <header className='row p-2 mb-3'>

@@ -27,6 +27,7 @@ class Cards extends Component {
                     notationTypes={notationTypes}
                     handleType={handleType}
                 />
+
                 {notations.map(notation => (
                         notation.type === 'list' ?
                             <CardList

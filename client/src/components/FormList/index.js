@@ -110,6 +110,7 @@ class FormList extends Card {
                     style={{'color': 'grey'}}
                     activeStyle={{'color': 'black'}}
                     to='/'>
+
                 <Button
                     class='header__close-btn'
                     title='x'
