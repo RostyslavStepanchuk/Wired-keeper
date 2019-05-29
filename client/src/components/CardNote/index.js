@@ -54,12 +54,11 @@ class CardNote extends Card {
                         disabled={wasUpdated ? null : 'disabled'}
 
                     />
-                    <Button
+                    <wired-icon-button
+                        style={{'--wired-icon-size' : '12px'}}
                         class='body__card-delete-btn'
-                        title='x'
                         onClick={() => onDelete(cardNote.id, cardNote.type)}
-
-                    />
+                    >close</wired-icon-button>
                 </wired-card>
 
             </div>

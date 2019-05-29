@@ -21,9 +21,17 @@ class FormList extends Card {
         listItems: [{
             checked: false,
             task: '',
-            key: 0
+            key: '0000'
         }],
+        focusedItem: null
     };
+
+    componentDidUpdate() {
+        const focusedKey = this.state.focusedItem;
+        console.log('focusedKey', focusedKey);
+        console.log('focusedKey ref', this[focusedKey]);
+        if(focusedKey) setTimeout(()=>this[focusedKey].focus(),0);
+    }
 
     handleChange = (evt, stateKey, index) => {
         if (stateKey === 'title') {
@@ -48,14 +56,17 @@ class FormList extends Card {
         if (e.keyCode !== 13 && e.button !== 0) return;
         e.preventDefault();
         const listItems = [...this.state.listItems];
+        const key = Math.floor(Math.random() * 10000).toString();
         listItems.splice(index + 1, 0, {
             checked: false,
             task: '',
-            key: Math.floor(Math.random()*10000).toString()
+            key
         });
 
-        this.setState({listItems})
-
+        this.setState({
+            listItems,
+            focusedItem:key
+        })
     };
 
 
@@ -66,9 +77,10 @@ class FormList extends Card {
     };
 
     render() {
+        console.log('CHECKING REFS', this);
         return (
             <wired-card
-                class = 'col-md-8 col-xl-5'
+                class='col-md-8 col-xl-5'
                 elevation={3}
                 style={{
                     margin: 'auto',
@@ -84,29 +96,30 @@ class FormList extends Card {
                 />
                 {this.state.listItems.map((listItem, index) => (
                     <div key={listItem.key} className='d-flex'>
-                    <wired-checkbox
-                        checked={listItem.checked ? 'checked' : null}
-                        style={{whiteSpace: 'normal'}}
-                    />
-                    <ContentEditable
-                        innerRef={this.contentEditable}
-                        html={listItem.task}
-                        onChange={(e) => this.handleChange(e, 'listItems', index)}
-                        onKeyDown={(e) => this.addNewItem(e, index)}
-                        tagName='p'
-                        style={{
-                            minWidth: '220px',
-                            maxWidth: '450px',
-                            borderBottom: '1px solid black'
-                        }}
-                    />
-                    <Button title='+' style={{height: '28px'}}
-                            onMouseUp={(e) => this.addNewItem(e, index)}
-                    />
-                    <Button title='X' style={{height: '28px'}}
-                            onClick={() => this.deleteItem(index)}
-                    />
-                </div>))}
+                        <wired-checkbox
+                            checked={listItem.checked ? 'checked' : null}
+                            style={{whiteSpace: 'normal'}}
+                        />
+                        <ContentEditable
+                            innerRef={this.contentEditable}
+                            html={listItem.task}
+                            onChange={(e) => this.handleChange(e, 'listItems', index)}
+                            onKeyDown={(e) => this.addNewItem(e, index)}
+                            tagName='p'
+                            ref = {(item)=>this[listItem.key]=item}
+                            style={{
+                                minWidth: '220px',
+                                maxWidth: '450px',
+                                borderBottom: '1px solid black'
+                            }}
+                        />
+                        <Button title='+' style={{height: '28px'}}
+                                onMouseUp={(e) => this.addNewItem(e, index)}
+                        />
+                        <Button title='X' style={{height: '28px'}}
+                                onClick={() => this.deleteItem(index)}
+                        />
+                    </div>))}
                 <br/>
                 <Button title='create' onClick={this.doSubmit}/>
                 <NavLink
@@ -114,11 +127,11 @@ class FormList extends Card {
                     activeStyle={{'color': 'black'}}
                     to='/'>
 
-                <Button
-                    class='header__close-btn'
-                    title='x'
-                    onClick={this.props.goToIndex}
-                />
+                    <Button
+                        class='header__close-btn'
+                        title='x'
+                        onClick={this.props.goToIndex}
+                    />
                 </NavLink>
             </wired-card>
         );
@@ -127,7 +140,7 @@ class FormList extends Card {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    goToIndex: ()=>dispatch(goToIndex()),
+    goToIndex: () => dispatch(goToIndex()),
 });
 
-export default connect(null,mapDispatchToProps)(FormList);
+export default connect(null, mapDispatchToProps)(FormList);

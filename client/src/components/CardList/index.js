@@ -66,11 +66,11 @@ class CardList extends Card {
                         disabled={wasUpdated ? null :'disabled'}
                         onClick={this.handleSave}
                     />
-                    <Button
+                    <wired-icon-button
+                        style={{'--wired-icon-size' : '12px'}}
                         class='body__card-delete-btn'
-                        title='x'
                         onClick={() => onDelete(cardList.id, cardList.type)}
-                    />
+                    >close</wired-icon-button>
                 </wired-card>
 
             </div>
