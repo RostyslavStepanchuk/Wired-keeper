@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import {NavLink} from "react-router-dom";
-import ContentEditable from "react-contenteditable";
 import {connect} from 'react-redux';
 
 import Button from '../Button'
@@ -20,12 +19,23 @@ class FormList extends Card {
         title: '',
         listItems: [{
             checked: false,
-            task: ''
+            task: '',
+            key: '0000'
         }],
+        focusedItem: null,
     };
 
-    handleChange = (evt, stateKey, index) => {
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.state.listItems.length > prevState.listItems.length) {
+            const focusedKey = this.state.focusedItem;
+            if(focusedKey) {
+                this[focusedKey].focus();
+                this.setState({focusedItem:null})
+            }
+        }
+    }
 
+    handleChange = (evt, stateKey, index) => {
         if (stateKey === 'title') {
             this.setState({title: evt.target.value});
         }
@@ -44,17 +54,20 @@ class FormList extends Card {
     };
 
     addNewItem = (e, index) => {
-        // console.log(this.state.card);
         if (e.keyCode !== 13 && e.button !== 0) return;
-        console.log('aaa');
         e.preventDefault();
         const listItems = [...this.state.listItems];
+        const key = Math.floor(Math.random() * 10000).toString();
         listItems.splice(index + 1, 0, {
             checked: false,
-            task: ''
+            task: '',
+            key
         });
-        this.setState({listItems})
 
+        this.setState({
+            listItems,
+            focusedItem:key
+        })
     };
 
 
@@ -67,7 +80,7 @@ class FormList extends Card {
     render() {
         return (
             <wired-card
-                class = 'col-md-8 col-xl-5'
+                class='col-md-8 col-xl-5'
                 elevation={3}
                 style={{
                     margin: 'auto',
@@ -82,30 +95,32 @@ class FormList extends Card {
                     value={this.state.title}
                 />
                 {this.state.listItems.map((listItem, index) => (
-                    <div key={`${listItem.task}`} className='d-flex'>
-                    <wired-checkbox
-                        checked={listItem.checked ? 'checked' : null}
-                        style={{whiteSpace: 'normal'}}
-                    />
-                    <ContentEditable
-                        innerRef={this.contentEditable}
-                        html={listItem.task}
-                        onChange={(e) => this.handleChange(e, 'listItems', index)}
-                        onKeyDown={(e) => this.addNewItem(e, index)}
-                        tagName='p'
-                        style={{
-                            minWidth: '220px',
-                            maxWidth: '450px',
-                            borderBottom: '1px solid black'
-                        }}
-                    />
-                    <Button title='+' style={{height: '28px'}}
-                            onMouseUp={(e) => this.addNewItem(e, index)}
-                    />
-                    <Button title='X' style={{height: '28px'}}
-                            onClick={() => this.deleteItem(index)}
-                    />
-                </div>))}
+                    <div key={listItem.key} className='d-flex'>
+                        <wired-checkbox
+                            checked={listItem.checked ? 'checked' : null}
+                            style={{whiteSpace: 'normal'}}
+                        />
+                        <input
+                            type = 'text'
+                            value={listItem.task}
+                            onChange={(e) => this.handleChange(e, 'listItems', index)}
+                            onKeyDown={(e) => this.addNewItem(e, index)}
+                            ref = {(item)=>this[listItem.key]=item}
+                            style={{
+                                outline:'none',
+                                borderStyle: 'none',
+                                minWidth: '220px',
+                                maxWidth: '450px',
+                                borderBottom: '1px solid black'
+                            }}
+                        />
+                        <Button title='+' style={{height: '28px'}}
+                                onMouseUp={(e) => this.addNewItem(e, index)}
+                        />
+                        <Button title='X' style={{height: '28px'}}
+                                onClick={() => this.deleteItem(index)}
+                        />
+                    </div>))}
                 <br/>
                 <Button title='create' onClick={this.doSubmit}/>
                 <NavLink
@@ -113,11 +128,11 @@ class FormList extends Card {
                     activeStyle={{'color': 'black'}}
                     to='/'>
 
-                <Button
-                    class='header__close-btn'
-                    title='x'
-                    onClick={this.props.goToIndex}
-                />
+                    <Button
+                        class='header__close-btn'
+                        title='x'
+                        onClick={this.props.goToIndex}
+                    />
                 </NavLink>
             </wired-card>
         );
@@ -126,7 +141,7 @@ class FormList extends Card {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    goToIndex: ()=>dispatch(goToIndex()),
+    goToIndex: () => dispatch(goToIndex()),
 });
 
-export default connect(null,mapDispatchToProps)(FormList);
+export default connect(null, mapDispatchToProps)(FormList);

@@ -10,14 +10,33 @@ class CardList extends Card {
     static propTypes ={
         cardList: PropTypes.object.isRequired,
         onDelete: PropTypes.func.isRequired,
-        onSave: PropTypes.func.isRequired
+        onSave: PropTypes.func.isRequired,
+        addToDoListItem: PropTypes.func.isRequired,
     };
 
     state = {
         title: this.props.cardList.title,
         listItems:this.props.cardList.listItems,
         wasUpdated: false,
+        focusedItem: null,
     };
+
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        if(this.state.listItems.length < nextProps.cardList.listItems.length) {
+            this.setState({listItems:nextProps.cardList.listItems})
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.state.listItems.length > prevState.listItems.length) {
+            const focusedKey = this.state.focusedItem;
+            console.log('FOCUSED KEY', this[focusedKey]);
+            if(focusedKey) {
+                this[focusedKey].focus();
+                this.setState({focusedItem:null})
+            }
+        }
+    }
 
     handleTitleChange = e => {
         this.setState({title: e.target.value, wasUpdated:true});
@@ -43,14 +62,28 @@ class CardList extends Card {
             type:this.props.cardList.type,
         };
 
-      this.props.onSave(notation)
+      this.props.onSave(notation);
+      this.setState({wasUpdated:false})
     };
 
+    addNewItem = (e, index, id) => {
+        if (e.keyCode !== 13 && e.button !== 0) return;
+        e.preventDefault();
+        const key = Math.floor(Math.random() * 10000).toString();
+        this.setState({focusedItem:key});
+        this.props.addToDoListItem(id,index,key)
+    };
+
+    setFocusOnItem = (key) => {
+        this.setState({focusedItem:key})
+};
+    // removeFocusFromItem = () => {
+    //     this.setState({focusedItem:null})
+    // };
 
     render() {
         const {cardList, onDelete} = this.props;
         const {title, listItems, wasUpdated} = this.state;
-
         return (
             <div key={cardList.id} className="body__card col-sm-6 col-lg-4">
 
@@ -65,11 +98,11 @@ class CardList extends Card {
                         disabled={wasUpdated ? null :'disabled'}
                         onClick={this.handleSave}
                     />
-                    <Button
+                    <wired-icon-button
+                        style={{'--wired-icon-size' : '12px'}}
                         class='body__card-delete-btn'
-                        title='x'
                         onClick={() => onDelete(cardList.id, cardList.type)}
-                    />
+                    >close</wired-icon-button>
                 </wired-card>
 
             </div>

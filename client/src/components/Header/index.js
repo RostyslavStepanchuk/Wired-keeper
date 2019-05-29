@@ -60,13 +60,13 @@ function Header (props) {
 const mapStateToProps = (state) => {
     return {
         openRoot: state.headerLink.openRoot
-    }
-
+    };
 };
+
 const mapDispatchToProps = (dispatch) => {
   return{
       followLink: (link,currentRoot)=>dispatch(followLink(link, currentRoot)),
   }
 };
 
-export default connect (mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
