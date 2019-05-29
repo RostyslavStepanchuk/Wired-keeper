@@ -23,10 +23,12 @@
       outline: none;
     }
     &_add-item-btn{
+      height: 50px;
+      width: 50px;
       position: absolute;
       right: -20px;
       transform: translate(0,-5px);
-      --wired-icon-size: 15px;
+      --wired-icon-size: 30px;
     }
     //&_note-text {
     //  padding-bottom: 50px;

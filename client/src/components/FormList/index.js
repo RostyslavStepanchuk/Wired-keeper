@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import {NavLink} from "react-router-dom";
-import ContentEditable from "react-contenteditable";
 import {connect} from 'react-redux';
 
 import Button from '../Button'
@@ -108,6 +107,7 @@ class FormList extends Card {
                             onKeyDown={(e) => this.addNewItem(e, index)}
                             ref = {(item)=>this[listItem.key]=item}
                             style={{
+                                outline:'none',
                                 borderStyle: 'none',
                                 minWidth: '220px',
                                 maxWidth: '450px',

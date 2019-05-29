@@ -44,12 +44,20 @@ class Card extends Component {
                         className = 'body__card_list-item-text'
                         value={listItem.task}
                         onChange={(e) => this.handleTaskDescriptionChange(e, index)}
+                        onFocus={()=>this.setFocusOnItem(listItem.key)}
+                        // onBlur={this.removeFocusFromItem}
                         inputRef={tag => (this[listItem.key] = tag)}
                     />
-                    <wired-icon-button
-                        class="body__card_add-item-btn"
+                    {listItem.key===this.state.focusedItem && <wired-icon-button
+                        className="body__card_add-item-btn"
+                        style={{
+                            '--wired-icon-size': '15px',
+                            transform: 'translate(0,-5px)',
+                            height:'25px',
+                            width:'25px'
+                        }}
                         onMouseUp={(e) => this.addNewItem(e, index, this.props.cardList.id)}
-                    >add</wired-icon-button>
+                    >add</wired-icon-button>}
                 </div>)
             )
         )

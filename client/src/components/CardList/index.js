@@ -72,15 +72,18 @@ class CardList extends Card {
         const key = Math.floor(Math.random() * 10000).toString();
         this.setState({focusedItem:key});
         this.props.addToDoListItem(id,index,key)
-
-
     };
 
+    setFocusOnItem = (key) => {
+        this.setState({focusedItem:key})
+};
+    // removeFocusFromItem = () => {
+    //     this.setState({focusedItem:null})
+    // };
 
     render() {
         const {cardList, onDelete} = this.props;
         const {title, listItems, wasUpdated} = this.state;
-        console.log(this);
         return (
             <div key={cardList.id} className="body__card col-sm-6 col-lg-4">
 
