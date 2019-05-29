@@ -90,6 +90,19 @@ class App extends Component {
         this.setState({notations})
     };
 
+    addToDoListItem =(id, itemIndex, key)=>{
+        const newNotations = JSON.parse(JSON.stringify(this.state.notations));
+        const cardIndex = newNotations.map(notation => notation.id).indexOf(id);
+        const targetList = newNotations[cardIndex];
+        const listItems = targetList.listItems;
+        listItems.splice(itemIndex + 1, 0, {
+            checked: false,
+            task: '',
+            key
+        });
+
+        this.setState({notations:newNotations})
+    };
     // handleLinkClick = (linkRoot) => {
     //     if (linkRoot !== this.state.openRoot) this.setState({openRoot: linkRoot});
     //     else this.setState({openRoot: '/'});
@@ -98,7 +111,6 @@ class App extends Component {
     render() {
         const {searchQuery, notationTypes} = this.state;
         const notations = this.getPagedData();
-
         return (
             <React.Fragment>
                 <Header
@@ -128,6 +140,7 @@ class App extends Component {
                                 (props) => (
                                     <Cards
                                         {...props}
+                                        addToDoListItem={this.addToDoListItem}
                                         notationTypes={notationTypes}
                                         handleType={this.handleSelectedType}
                                         notations={notations}

@@ -23,7 +23,7 @@ class FormList extends Card {
             task: '',
             key: '0000'
         }],
-        focusedItem: null
+        focusedItem: null,
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -55,7 +55,6 @@ class FormList extends Card {
     };
 
     addNewItem = (e, index) => {
-        // console.log(this.state.card);
         if (e.keyCode !== 13 && e.button !== 0) return;
         e.preventDefault();
         const listItems = [...this.state.listItems];
@@ -80,7 +79,6 @@ class FormList extends Card {
     };
 
     render() {
-        console.log('CHECKING REFS', this);
         return (
             <wired-card
                 class='col-md-8 col-xl-5'
