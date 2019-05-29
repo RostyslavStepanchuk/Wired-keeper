@@ -20,7 +20,8 @@ class FormList extends Card {
         title: '',
         listItems: [{
             checked: false,
-            task: ''
+            task: '',
+            key: 0
         }],
     };
 
@@ -45,13 +46,14 @@ class FormList extends Card {
     addNewItem = (e, index) => {
         // console.log(this.state.card);
         if (e.keyCode !== 13 && e.button !== 0) return;
-        console.log('aaa');
         e.preventDefault();
         const listItems = [...this.state.listItems];
         listItems.splice(index + 1, 0, {
             checked: false,
-            task: ''
+            task: '',
+            key: Math.floor(Math.random()*10000).toString()
         });
+
         this.setState({listItems})
 
     };
@@ -81,7 +83,7 @@ class FormList extends Card {
                     value={this.state.title}
                 />
                 {this.state.listItems.map((listItem, index) => (
-                    <div key={`${listItem.task}`} className='d-flex'>
+                    <div key={listItem.key} className='d-flex'>
                     <wired-checkbox
                         checked={listItem.checked ? 'checked' : null}
                         style={{whiteSpace: 'normal'}}

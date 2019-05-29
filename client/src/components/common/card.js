@@ -32,7 +32,7 @@ class Card extends Component {
     renderListItems(listItems) {
         return (
             listItems.map((listItem, index) => (
-                <div key={`${listItem.task}-group`} className='d-flex'>
+                <div key={`${listItem.key}`} className='d-flex'>
                     <wired-checkbox
                         checked={listItem.checked ? 'checked' : null}
                         style={{whiteSpace: 'normal'}}

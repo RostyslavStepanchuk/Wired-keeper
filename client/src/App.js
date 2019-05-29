@@ -20,6 +20,10 @@ class App extends Component {
 
     async componentDidMount() {
         let notations = await getNotations();
+        notations.forEach(notation=>{
+            if (notation.type==='list') notation.listItems.forEach(item => {
+                item.key = Math.floor(Math.random()*10000).toString()})
+        });
         this.setState({notations})
         // fetch('http://localhost:8000').then((resp)=>resp.json()).then(data=>console.log(data));
     }
