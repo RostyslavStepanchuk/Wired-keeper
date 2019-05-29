@@ -9,6 +9,16 @@
       //box-sizing: content-box;
     }
 
+    &_list-item-text {
+      flex-grow: 1;
+      wrap: soft;
+      line-height: 20px;
+      resize: none;
+      white-space: normal;
+      border-style: none;
+      margin-bottom: 10px;
+    }
+
     &-delete-btn {
       position: absolute;
       top: 10px;

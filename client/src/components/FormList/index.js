@@ -26,11 +26,14 @@ class FormList extends Card {
         focusedItem: null
     };
 
-    componentDidUpdate() {
-        const focusedKey = this.state.focusedItem;
-        console.log('focusedKey', focusedKey);
-        console.log('focusedKey ref', this[focusedKey]);
-        if(focusedKey) setTimeout(()=>this[focusedKey].focus(),0);
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.state.listItems.length > prevState.listItems.length) {
+            const focusedKey = this.state.focusedItem;
+            if(focusedKey) {
+                this[focusedKey].focus();
+                this.setState({focusedItem:null})
+            }
+        }
     }
 
     handleChange = (evt, stateKey, index) => {
@@ -100,14 +103,14 @@ class FormList extends Card {
                             checked={listItem.checked ? 'checked' : null}
                             style={{whiteSpace: 'normal'}}
                         />
-                        <ContentEditable
-                            innerRef={this.contentEditable}
-                            html={listItem.task}
+                        <input
+                            type = 'text'
+                            value={listItem.task}
                             onChange={(e) => this.handleChange(e, 'listItems', index)}
                             onKeyDown={(e) => this.addNewItem(e, index)}
-                            tagName='p'
                             ref = {(item)=>this[listItem.key]=item}
                             style={{
+                                borderStyle: 'none',
                                 minWidth: '220px',
                                 maxWidth: '450px',
                                 borderBottom: '1px solid black'

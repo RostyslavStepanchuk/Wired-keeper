@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import ContentEditable from 'react-contenteditable'
+import Textarea from 'react-textarea-autosize'
+
 import './card.scss'
 
 class Card extends Component {
@@ -38,10 +40,9 @@ class Card extends Component {
                         style={{whiteSpace: 'normal'}}
                         onClick={(e) => this.handleCheckboxTick(e, index)}
                     />
-                    <ContentEditable
-                        innerRef={this.contentEditable}
-                        html={listItem.task}
-                        tagName='p'
+                    <Textarea
+                        className = 'body__card_list-item-text'
+                        value={listItem.task}
                         onChange={(e) => this.handleTaskDescriptionChange(e, index)}
                     />
                 </div>)
