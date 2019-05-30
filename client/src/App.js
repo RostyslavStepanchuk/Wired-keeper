@@ -1,102 +1,169 @@
 import React, {Component} from 'react';
-import Header from './components/Header'
-import {Route, Switch} from 'react-router-dom'
+import WiredElements from 'wired-elements';
+import {Route} from 'react-router-dom';
+import Header from './components/Header';
 import Cards from './components/Cards'
 import FormNote from './components/FormNote'
 import FormList from "./components/FormList";
-import Footer from './components/Footer'
 import {getNotations} from "./services/notations";
-import {deleteList, updateList} from "./services/listService";
-import {deleteNote} from "./services/noteService";
+import {deleteList, saveList, updateList} from "./services/listService";
+import {deleteNote, saveNote, updateNote} from "./services/noteService";
 
 
 class App extends Component {
     state = {
         notations: [],
         searchQuery: '',
-        notationTypes: ['All', 'notes', 'lists'],
-        selectedType: 'All'
+        notationTypes: ['note', 'notes', 'lists'],
+        selectedType: 'note',
     };
 
-
     async componentDidMount() {
-        console.log('mounted');
         let notations = await getNotations();
+        notations.forEach(notation=>{
+            if (notation.type==='list') notation.listItems.forEach(item => {
+                item.key = Math.floor(Math.random()*10000).toString()})
+        });
         this.setState({notations})
         // fetch('http://localhost:8000').then((resp)=>resp.json()).then(data=>console.log(data));
     }
 
     handleSearch = query => {
-        this.setState({searchQuery: query, selectedType: 'All'});
-        console.log(query)
+        this.setState({searchQuery: query, selectedType: 'note'});
     };
     handleSelectedType = type => {
+        console.log(type);
         this.setState({selectedType: type});
-        console.log('tr')
+
     };
-    getPagedData =   () => {
-        let newNotes =   [...this.state.notations];
+    getPagedData = () => {
+        let newNotes = [...this.state.notations];
         const {searchQuery, selectedType} = this.state;
-        let filtered =  [...newNotes];
-        if (searchQuery)
+        let filtered = [...newNotes];
+        if (searchQuery !== '') {
             filtered = newNotes.filter(notation => notation.title.toLowerCase().startsWith(searchQuery.toLowerCase()));
-        else if (selectedType !== 'All')
-            filtered = selectedType === 'lists' ? newNotes.filter(n => n.type === 'lists') : newNotes.filter(n => n.type === 'notes');
+        } else if (selectedType !== 'note') {
+            filtered = selectedType === 'lists' ? newNotes.filter(n => n.type === 'list') : newNotes.filter(n => n.type === 'note');
+
+        }
         return filtered; // then you should map 'filtered' inside render -> cards = getPagedData()
     };
 
-
-    handleDelete = async card => {
+    handleDelete = async (id, type) => {
         const originalNotations = [...this.state.notations];
-        const notations = originalNotations.filter(notation => notation.id !== card.id);
-        console.log(notations);
+        const notations = originalNotations.filter(notation => notation.id !== id);
         this.setState({notations});
 
         try {
-            if (card.type === 'list') await deleteList(card.id);
-            else if (card.type === 'note') await deleteNote(card.id);
-            else console.log('Invalid card type')
+            if (type === 'list') await deleteList(id);
+            else if (type === 'note') await deleteNote(id);
+            else throw new Error('Invalid card type')
         } catch (ex) {
             if (ex.response && ex.response.status === 404) console.log("x");
             alert("This notation has already been deleted.");
-            this.setState({cardNotes: originalNotations});
+            this.setState({notations: originalNotations});
         }
     };
 
-    handleCheck = (cardList, ItemIndex) => {
-        const originalNotations = [...this.state.notations];
-
-        const cardLists = [...this.state.cardLists];
-        const index = cardLists.indexOf(cardList);
-        cardLists[index] = {...cardLists[index]};
-        cardLists[index].listItems[ItemIndex].checked = !cardLists[index].listItems[ItemIndex].checked;
+    handleSave = async (notation) => {
+        const originalNotations = JSON.parse(JSON.stringify(this.state.notations));
         try {
-            updateList(cardList.id)
+            if (notation.type === 'list') {
+                await updateList(notation)
+            } else if (notation.type === 'note') {
+                await updateNote(notation)
+            } else throw new Error('Invalid card type')
         } catch (ex) {
-            alert('trevoga');
-            this.setState({cardLists: originalNotations})
+            alert('Error during list update');
+            this.setState({notations: originalNotations})
         }
-        this.setState({cardLists});
     };
 
+    handleSubmit = async (notation) => {
+        let newNotation;
+        if (notation.type === 'note') newNotation = await saveNote(notation).then(resp => resp.data);
+        else if (notation.type === 'list') newNotation = await saveList(notation).then(resp => resp.data);
+        else throw new Error('Invalid card type');
+
+        const notations = [...this.state.notations];
+        notations.push(newNotation);
+        this.setState({notations})
+    };
+
+    addToDoListItem = (id, itemIndex, key)=>{
+        const newNotations = JSON.parse(JSON.stringify(this.state.notations));
+        const cardIndex = newNotations.map(notation => notation.id).indexOf(id);
+        const targetList = newNotations[cardIndex];
+        const listItems = targetList.listItems;
+        listItems.splice(itemIndex + 1, 0, {
+            checked: false,
+            task: '',
+            key
+        });
+
+        this.setState({notations:newNotations})
+    };
+    deleteToDoListItem = async (id, itemIndex)=>{
+        const newNotations = JSON.parse(JSON.stringify(this.state.notations));
+        const cardIndex = newNotations.map(notation => notation.id).indexOf(id);
+        const targetList = newNotations[cardIndex];
+        const listItems = targetList.listItems;
+        listItems.splice(itemIndex , 1);
+        await this.handleSave(targetList);
+        this.setState({notations:newNotations})
+    };
+    // handleLinkClick = (linkRoot) => {
+    //     if (linkRoot !== this.state.openRoot) this.setState({openRoot: linkRoot});
+    //     else this.setState({openRoot: '/'});
+    // };
 
     render() {
-        const { searchQuery, notationTypes} = this.state;
-        const notations  = this.getPagedData();
+        const {searchQuery, notationTypes} = this.state;
+        const notations = this.getPagedData();
         return (
             <React.Fragment>
-                <Header notations={notations} value={searchQuery} onSearch={this.handleSearch}/>
+                <Header
+                    notations={notations}
+                    value={searchQuery}
+                    onSearch={this.handleSearch}
+                />
                 <div className='container'>
-                    <Route path='/createNote' component={FormNote}/>
-                    <Route path='/createList' component={FormList}/>
-                    <Route path='/' render={(props) => <Cards {...props}
-                                                              notationTypes={notationTypes}
-                                                              handleType={this.handleSelectedType}
-                                                              handleDelete={this.handleDelete}
-                                                              notations={notations}/>}/>
-                    {/*<Cards className='row'/>*/}
-                    {/*<Footer className='row'/>*/}
+                    <div className='row'>
+                        <Route
+                            path='/createNote'
+                            render={(props) => <FormNote {...props}
+                                                         onSubmit={this.handleSubmit}
+
+                            />}
+                        />
+                        <Route
+                            path='/createList'
+                            render={(props) => <FormList {...props}
+                                                         onSubmit={this.handleSubmit}
+
+                            />}
+                        />
+                        <Route
+                            path='/'
+                            render={
+                                (props) => (
+                                    <Cards
+                                        {...props}
+                                        addToDoListItem={this.addToDoListItem}
+                                        deleteToDoListItem={this.deleteToDoListItem}
+                                        notationTypes={notationTypes}
+                                        handleType={this.handleSelectedType}
+                                        notations={notations}
+                                        handleDelete={this.handleDelete}
+                                        handleSave={this.handleSave}
+                                    />
+                                )}
+
+                        />
+                        {/*<Footer className='row'/>*/}
+                    </div>
                 </div>
+
             </React.Fragment>
         );
     }

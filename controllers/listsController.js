@@ -31,6 +31,8 @@ class ListsController{
     }
 
     static updateList(req, res) {
+        console.log('received list:');
+        console.log(req.body);
         try {
             if (req.body) {
                 const list = new List(req.body.title, req.body.listItems, req.params.id);

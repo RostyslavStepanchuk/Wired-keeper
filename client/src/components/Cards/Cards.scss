@@ -1,6 +1,67 @@
 .body {
-  &__card{
-    //margin: 0 auto;
-    //box-sizing: content-box;
+  &__card {
+    position: relative;
+
+    &-title {
+      font-family: 'Amatic SC', cursive;
+      font-weight: bold;
+      color: #243E36;
+      //margin: 0 auto;
+      //box-sizing: content-box;
+    }
+    &_list-row {
+      width: 90%;
+      position: relative;
+    }
+    &_list-item-text {
+      flex-grow: 1;
+      wrap: soft;
+      line-height: 20px;
+      resize: none;
+      white-space: normal;
+      border-style: none;
+      margin-bottom: 10px;
+      outline: none;
+    }
+    &_add-item-btn{
+      height: 50px;
+      width: 50px;
+      position: absolute;
+      right: -20px;
+      transform: translate(0,-5px);
+      --wired-icon-size: 30px;
+    }
+    //&_note-text {
+    //  padding-bottom: 50px;
+    //}
+
+    &-delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      //font-size: 10px;
+    }
+
+    &-save-btn {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      //font-size: 10px;
+    }
+  }
+
+  &__placeholder {
+    height: 70vh;
+    margin: auto;
+    line-height: 70vh;
+    text-align: center;
+    font-size: 50px;
+    color: #5a6268;
+    font-family: 'Amatic SC', cursive;
+  }
+
+  [contenteditable]:focus {
+    outline: 0 solid transparent;
+
   }
 }
