@@ -87,12 +87,20 @@ class CardList extends Card {
     // removeFocusFromItem = () => {
     //     this.setState({focusedItem:null})
     // };
+    refreshFocus = (e) =>{
+        // if(e.target.className === 'action-button') return;
+        console.log(e.target.className === 'action-button');
+        // e.stopPropagation();
+        this.setState({focusedItem: null})
+    };
 
     render() {
         const {cardList, onDelete} = this.props;
         const {title, listItems, wasUpdated} = this.state;
         return (
-            <div key={cardList.id} className="body__card col-sm-6 col-lg-4">
+            <div
+                key={cardList.id}
+                className="body__card col-sm-6 col-lg-4">
 
                 <wired-card type={cardList.type}
                             style={{width: '100%'}}

@@ -15,7 +15,9 @@ function Search(props) {
     const {value, onSearch} = props;
     return (
         <div className='position-relative'>
-            <wired-input class='input-field' value={value}  onInput={(e)=> onSearch(e.currentTarget.value)} type='text'/>
+            <wired-input
+                placeholder="Enter the title to find your note"
+                class='input-field' value={value}  onInput={(e)=> onSearch(e.currentTarget.value)} type='text'/>
             <img className='loop' src={loop} alt="loop"/>
         </div>
     );

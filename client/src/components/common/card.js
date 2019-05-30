@@ -34,7 +34,10 @@ class Card extends Component {
     renderListItems(listItems) {
         return (
             listItems.map((listItem, index) => (
-                <div key={`${listItem.key}`} className='body__card_list-row d-flex'>
+                <div
+                    onBlur={(e) => this.refreshFocus(e)}
+                    key={`${listItem.key}`}
+                    className='body__card_list-row d-flex'>
                     <wired-checkbox
                         checked={listItem.checked ? 'checked' : null}
                         style={{whiteSpace: 'normal'}}
@@ -49,7 +52,7 @@ class Card extends Component {
                         inputRef={tag => (this[listItem.key] = tag)}
                     />
                     {listItem.key === this.state.focusedItem && <wired-icon-button
-                        className="body__card_add-item-btn"
+                        className="body__card_add-item-btn action-button"
                         style={{
                             '--wired-icon-size': '15px',
                             transform: 'translate(0,-5px)',
@@ -59,7 +62,7 @@ class Card extends Component {
                         onMouseUp={(e) => this.addNewItem(e, index, this.props.cardList.id)}
                     >add</wired-icon-button>}
                     {listItem.key === this.state.focusedItem && <wired-icon-button
-                        className="body__card_add-item-btn"
+                        className="body__card_add-item-btn action-button"
                         style={{
                             '--wired-icon-size': '15px',
                             transform: 'translate(0,-5px)',
