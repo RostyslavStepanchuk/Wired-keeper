@@ -28,23 +28,26 @@ function Header (props) {
                 <div className="header__buttons col-10 col-md-6 justify-content-end d-flex col-xl-3">
 
                     <NavLink
-                        style={{color: 'grey'}}
-                        activeStyle={{color: 'black'}}
+
+                        activeStyle={{fontWeight:'bold',fontStyle:'italic'}}
 
                         to={openRoot === '/createNote' ? '/' :'/createNote'}
                         onClick={()=>followLink('/createNote',openRoot)}
                     >
                         <Button
+                            class='mr-2'
+                            style={{color: 'black', backgroundColor:'#A0DBEF'}}
                             title={'Create Note'}
                         />
                     </NavLink>
                     <NavLink
                         style={{color: 'grey'}}
-                        activeStyle={{color: 'black'}}
+                        activeStyle={{fontWeight:'bold',fontStyle:'italic'}}
                         to={openRoot === '/createList' ? '/' :'/createList'}
                         onClick={()=>followLink('/createList',openRoot)}
                     >
                         <Button
+                            style={{color: 'black', backgroundColor:'#A0DBEF'}}
                             title={'Create List'}
                         />
                     </NavLink>
