@@ -1,12 +1,5 @@
-// const mongoLogin = require('./login-data').mongoLogin;
-// const mongoPassword = require('./login-data').mongoPassword;
-//
-//
-// const login = process.env.mongoLogin || mongoLogin;
-// const password = process.env.mongoPassword || mongoPassword;
-
-const login = process.env.mongoLogin || 'Slava';
-const password = process.env.mongoPassword || '123';
+const login = process.env.mongoLogin;
+const password = process.env.mongoPassword;
 module.exports = {
     url: "mongodb+srv://testclusterslava-gz8as.mongodb.net/test",
         dbName: "Wired-keeper",
