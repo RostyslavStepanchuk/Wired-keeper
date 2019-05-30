@@ -20,7 +20,9 @@ Header.propTypes = {
 function Header (props) {
         const {value, onSearch, openRoot, followLink} = props;
     return (
-            <header className='row p-2 mb-3'>
+            <header
+                className='header row p-2 mb-3'
+            >
                 <div className='header__logo mb-2 col-2 col-sm-6 col-lg-4 align-content-center'>
                     <img className='header__logo-img' alt='pencil-logo' src={logo}/>
                     <span className='header__logo-txt d-none d-sm-inline-block'>WIRED-KEEPER</span>
