@@ -103,13 +103,13 @@ class App extends Component {
 
         this.setState({notations:newNotations})
     };
-    deleteToDoListItem = async (id, itemIndex)=>{
+    deleteToDoListItem = (id, itemIndex)=>{
         const newNotations = JSON.parse(JSON.stringify(this.state.notations));
         const cardIndex = newNotations.map(notation => notation.id).indexOf(id);
         const targetList = newNotations[cardIndex];
         const listItems = targetList.listItems;
         listItems.splice(itemIndex , 1);
-        await this.handleSave(targetList);
+        // await this.handleSave(targetList);
         this.setState({notations:newNotations})
     };
     // handleLinkClick = (linkRoot) => {

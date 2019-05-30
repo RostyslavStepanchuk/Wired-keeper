@@ -35,9 +35,10 @@ class Card extends Component {
         return (
             listItems.map((listItem, index) => (
                 <div
-                    onBlur={(e) => this.refreshFocus(e)}
                     key={`${listItem.key}`}
-                    className='body__card_list-row d-flex'>
+                    className='body__card_list-row d-flex'
+
+                >
                     <wired-checkbox
                         checked={listItem.checked ? 'checked' : null}
                         style={{whiteSpace: 'normal'}}
