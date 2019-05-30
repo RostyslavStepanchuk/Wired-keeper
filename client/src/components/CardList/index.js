@@ -1,6 +1,5 @@
 import React from 'react';
-
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import Button from '../Button'
 
 import Card from "../common/card";
@@ -70,29 +69,43 @@ class CardList extends Card {
         if (e.keyCode !== 13 && e.button !== 0) return;
         e.preventDefault();
         const key = Math.floor(Math.random() * 10000).toString();
-        this.setState({focusedItem:key});
+        this.setState({focusedItem:key, wasUpdated:true});
         this.props.addToDoListItem(id,index,key)
+    };
+    deleteThisItem = (e, index, id) => {
+        if (e.keyCode !== 13 && e.button !== 0) return;
+        e.preventDefault();
+        const listItems = [...this.state.listItems];
+        listItems.splice(index, 1);
+        this.setState({listItems, wasUpdated:true});
+        this.props.deleteToDoListItem(id, index)
     };
 
     setFocusOnItem = (key) => {
         this.setState({focusedItem:key})
 };
-    // removeFocusFromItem = () => {
-    //     this.setState({focusedItem:null})
-    // };
+
+    refreshFocus = (e) =>{
+        setTimeout(()=>this.setState({focusedItem: null}),100)
+    };
 
     render() {
         const {cardList, onDelete} = this.props;
         const {title, listItems, wasUpdated} = this.state;
         return (
-            <div key={cardList.id} className="body__card col-sm-6 col-lg-4">
+            <div
+                key={cardList.id}
+                className="body__card col-sm-6 col-lg-4">
 
                 <wired-card type={cardList.type}
                             style={{width: '100%'}}
+                            onMouseLeave={(e) => this.refreshFocus(e)}
                 >
 
                     {this.renderTitle(title)}
+                    <div className="d-flex flex-column">
                     {this.renderListItems(listItems)}
+                    </div>
                     <Button
                         title='Save'
                         disabled={wasUpdated ? null :'disabled'}

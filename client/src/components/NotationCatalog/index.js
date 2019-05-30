@@ -4,7 +4,6 @@ import { faPencilAlt, faTable } from '@fortawesome/free-solid-svg-icons'
 import {faCheckSquare} from '@fortawesome/free-regular-svg-icons'
 
 const NotationCatalog = ({notationTypes, handleType}) => {
-    console.log(notationTypes);
     const icons = {
         notes: <FontAwesomeIcon style={{color:'#243E36'}} icon={faPencilAlt} />,
         lists: <FontAwesomeIcon style={{color:'#243E36'}} icon={faCheckSquare} />,

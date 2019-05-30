@@ -24,7 +24,7 @@ class Card extends Component {
                 innerRef={this.contentEditable}
                 html={text}
                 id='scrollbar'
-                // style={{overflowY: 'scroll', minHeight:'90px', maxHeight: '120px'}}
+                style={{overflowY: 'scroll', minHeight: '90px', maxHeight: '120px'}}
                 tagName='p'
                 onChange={this.handleTextChange}
             />
@@ -34,30 +34,44 @@ class Card extends Component {
     renderListItems(listItems) {
         return (
             listItems.map((listItem, index) => (
-                <div key={`${listItem.key}`} className='body__card_list-row d-flex'>
+                <div
+                    key={`${listItem.key}`}
+                    className='body__card_list-row d-flex'
+
+                >
                     <wired-checkbox
                         checked={listItem.checked ? 'checked' : null}
                         style={{whiteSpace: 'normal'}}
                         onClick={(e) => this.handleCheckboxTick(e, index)}
                     />
                     <Textarea
-                        className = 'body__card_list-item-text'
+                        className='body__card_list-item-text'
                         value={listItem.task}
                         onChange={(e) => this.handleTaskDescriptionChange(e, index)}
-                        onFocus={()=>this.setFocusOnItem(listItem.key)}
+                        onFocus={() => this.setFocusOnItem(listItem.key)}
                         // onBlur={this.removeFocusFromItem}
                         inputRef={tag => (this[listItem.key] = tag)}
                     />
-                    {listItem.key===this.state.focusedItem && <wired-icon-button
-                        className="body__card_add-item-btn"
+                    {listItem.key === this.state.focusedItem && <wired-icon-button
+                        className="body__card_add-item-btn action-button"
                         style={{
                             '--wired-icon-size': '15px',
                             transform: 'translate(0,-5px)',
-                            height:'25px',
-                            width:'25px'
+                            height: '25px',
+                            width: '25px'
                         }}
                         onMouseUp={(e) => this.addNewItem(e, index, this.props.cardList.id)}
                     >add</wired-icon-button>}
+                    {listItem.key === this.state.focusedItem && <wired-icon-button
+                        className="body__card_add-item-btn action-button"
+                        style={{
+                            '--wired-icon-size': '15px',
+                            transform: 'translate(0,-5px)',
+                            height: '25px',
+                            width: '25px'
+                        }}
+                        onMouseUp={(e) => this.deleteThisItem(e, index, this.props.cardList.id)}
+                    >delete</wired-icon-button>}
                 </div>)
             )
         )

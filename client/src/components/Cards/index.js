@@ -22,7 +22,7 @@ class Cards extends Component {
     };
 
     render() {
-        const {notations, handleDelete, handleSave, notationTypes, handleType, addToDoListItem} = this.props;
+        const {notations, handleDelete, handleSave, notationTypes, handleType, addToDoListItem, deleteToDoListItem} = this.props;
         if (!notations.length) return <p className='body__placeholder'>Nothing here yet</p>;
         return (
             <div className='body row p-2'>
@@ -35,6 +35,7 @@ class Cards extends Component {
                         notation.type === 'list' ?
                             <CardList
                                 addToDoListItem={addToDoListItem}
+                                deleteToDoListItem={deleteToDoListItem}
                                 key={notation.title}
                                 cardList={notation}
                                 onSave={handleSave}

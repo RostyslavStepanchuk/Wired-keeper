@@ -45,7 +45,7 @@ class CardNote extends Card {
                 <wired-card type={cardNote.type}
                             style={{
                                 minWidth: '220px',
-                                minHeight: '195px',
+                                minHeight: '235px',
                                 width:'100%'}}
                 >
                     {this.renderTitle(title)}

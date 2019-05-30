@@ -90,7 +90,7 @@ class App extends Component {
         this.setState({notations})
     };
 
-    addToDoListItem =(id, itemIndex, key)=>{
+    addToDoListItem = (id, itemIndex, key)=>{
         const newNotations = JSON.parse(JSON.stringify(this.state.notations));
         const cardIndex = newNotations.map(notation => notation.id).indexOf(id);
         const targetList = newNotations[cardIndex];
@@ -101,6 +101,15 @@ class App extends Component {
             key
         });
 
+        this.setState({notations:newNotations})
+    };
+    deleteToDoListItem = (id, itemIndex)=>{
+        const newNotations = JSON.parse(JSON.stringify(this.state.notations));
+        const cardIndex = newNotations.map(notation => notation.id).indexOf(id);
+        const targetList = newNotations[cardIndex];
+        const listItems = targetList.listItems;
+        listItems.splice(itemIndex , 1);
+        // await this.handleSave(targetList);
         this.setState({notations:newNotations})
     };
     // handleLinkClick = (linkRoot) => {
@@ -141,6 +150,7 @@ class App extends Component {
                                     <Cards
                                         {...props}
                                         addToDoListItem={this.addToDoListItem}
+                                        deleteToDoListItem={this.deleteToDoListItem}
                                         notationTypes={notationTypes}
                                         handleType={this.handleSelectedType}
                                         notations={notations}
