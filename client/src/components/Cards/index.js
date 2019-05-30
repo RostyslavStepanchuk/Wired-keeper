@@ -13,7 +13,8 @@ class Cards extends Component {
         handleDelete: PropTypes.func.isRequired,
         handleSave: PropTypes.func.isRequired,
         notationTypes: PropTypes.array.isRequired,
-        handleType: PropTypes.func.isRequired
+        handleType: PropTypes.func.isRequired,
+        addToDoListItem: PropTypes.func.isRequired
     };
 
     state = {
@@ -21,7 +22,7 @@ class Cards extends Component {
     };
 
     render() {
-        const {notations, handleDelete, handleSave, notationTypes, handleType} = this.props;
+        const {notations, handleDelete, handleSave, notationTypes, handleType, addToDoListItem} = this.props;
         if (!notations.length) return <p className='body__placeholder'>Nothing here yet</p>;
         return (
             <div className='body row p-2'>
@@ -33,6 +34,7 @@ class Cards extends Component {
                 {notations.map(notation => (
                         notation.type === 'list' ?
                             <CardList
+                                addToDoListItem={addToDoListItem}
                                 key={notation.title}
                                 cardList={notation}
                                 onSave={handleSave}

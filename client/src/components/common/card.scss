@@ -1,25 +1,25 @@
-#scrollbar::-webkit-scrollbar-track
-{
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
-  background-color: #CCCCCC;
-}
-
-#scrollbar::-webkit-scrollbar
-{
-  width: 6px;
-  background-color: #F5F5F5;
-}
-
-#scrollbar::-webkit-scrollbar-thumb
-{
-  background-color: #FFF;
-  background-image: -webkit-linear-gradient(90deg,
-          rgba(0, 0, 0, 1) 0%,
-          rgba(0, 0, 0, 1) 25%,
-          transparent 100%,
-          rgba(0, 0, 0, 1) 75%,
-          transparent)
-}
-#scrollbar{
-  overflow-x: hidden;
-}
+//#scrollbar::-webkit-scrollbar-track
+//{
+//  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
+//  background-color: #CCCCCC;
+//}
+//
+//#scrollbar::-webkit-scrollbar
+//{
+//  width: 6px;
+//  background-color: #F5F5F5;
+//}
+//
+//#scrollbar::-webkit-scrollbar-thumb
+//{
+//  background-color: #FFF;
+//  background-image: -webkit-linear-gradient(90deg,
+//          rgba(0, 0, 0, 1) 0%,
+//          rgba(0, 0, 0, 1) 25%,
+//          transparent 100%,
+//          rgba(0, 0, 0, 1) 75%,
+//          transparent)
+//}
+//#scrollbar{
+//  overflow-x: hidden;
+//}

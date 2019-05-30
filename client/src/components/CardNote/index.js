@@ -8,13 +8,13 @@ class CardNote extends Card {
     static propTypes = {
         cardNote: PropTypes.object.isRequired,
         onDelete: PropTypes.func.isRequired,
-        onSave: PropTypes.func.isRequired
+        onSave: PropTypes.func.isRequired,
     };
 
     state = {
         title: this.props.cardNote.title,
         noteText: this.props.cardNote.noteText,
-        wasUpdated: false
+        wasUpdated: false,
     };
 
     handleTitleChange = e => {
@@ -40,26 +40,28 @@ class CardNote extends Card {
     render() {
         const {cardNote, onDelete} = this.props;
         const {title, noteText, wasUpdated} = this.state;
-
         return (
             <div key={cardNote.id} className="body__card col-sm-6 col-lg-4">
                 <wired-card type={cardNote.type}
-                            style={{minWidth: '220px',minHeight: '245px',width:'100%'}}
+                            style={{
+                                minWidth: '220px',
+                                minHeight: '195px',
+                                width:'100%'}}
                 >
                     {this.renderTitle(title)}
                     {this.renderParagraph(noteText)}
                     <Button
                         title='Save'
+                        class='body__card-save-btn'
                         onClick={this.handleSave}
                         disabled={wasUpdated ? null : 'disabled'}
 
                     />
-                    <Button
+                    <wired-icon-button
+                        style={{'--wired-icon-size' : '12px'}}
                         class='body__card-delete-btn'
-                        title='x'
                         onClick={() => onDelete(cardNote.id, cardNote.type)}
-
-                    />
+                    >close</wired-icon-button>
                 </wired-card>
 
             </div>
